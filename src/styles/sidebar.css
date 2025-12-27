@@ -1,0 +1,136 @@
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  background: #1e1e1e;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px solid #333;
+  background: #252525;
+}
+
+.sidebar-logo {
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 12px;
+  flex: 1;
+}
+
+.nav-link {
+  color: #e0e0e0;
+  text-decoration: none;
+  padding: 14px 16px;
+  font-size: 15px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background: #667eea;
+  border-radius: 0 3px 3px 0;
+  transition: height 0.2s ease;
+}
+
+.nav-link:hover {
+  background: #2a2a2a;
+  color: #fff;
+  transform: translateX(4px);
+}
+
+.nav-link.active {
+  background: rgba(102, 126, 234, 0.15);
+  color: #667eea;
+  font-weight: 600;
+}
+
+.nav-link.active::before {
+  height: 70%;
+}
+
+.nav-link.logout {
+  margin-top: auto;
+  color: #e74c3c;
+  font-weight: 600;
+  border-top: 1px solid #333;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.nav-link.logout:hover {
+  background: rgba(231, 76, 60, 0.15);
+  color: #ff6b6b;
+  transform: translateX(4px);
+}
+
+.nav-link.logout::before {
+  background: #e74c3c;
+}
+@media (max-width: 900px) {
+  .sidebar {
+    width: 60px;
+    min-width: 60px;
+  }
+  .sidebar-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 8px;
+    font-size: 16px;
+  }
+  .sidebar-title {
+    display: none;
+  }
+  .nav-link {
+    font-size: 0;
+    padding: 14px 10px;
+  }
+  .nav-link::before {
+    content: attr(data-icon);
+    font-size: 20px;
+    display: inline-block;
+    margin-right: 0;
+  }
+}

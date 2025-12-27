@@ -1,0 +1,861 @@
+/* ============================================
+   SALON DE BEAUTÉ - LOGIN PAGE STYLES
+   Version: 1.0
+   Description: Styles détaillés et complets pour la page de connexion
+   ============================================ */
+
+/* ============================================
+   1. VARIABLES CSS (DESIGN TOKENS)
+   ============================================ */
+
+:root {
+  /* Couleurs principales */
+  --primary-color: #667eea;
+  --primary-dark: #764ba2;
+  --primary-light: #f9f9ff;
+
+  /* Couleurs d'état */
+  --success-bg: #d5f4e6;
+  --success-text: #27ae60;
+  --success-border: #a9dfbf;
+
+  --error-bg: #fadbd8;
+  --error-text: #c0392b;
+  --error-border: #f5b7b1;
+
+  /* Couleurs neutres */
+  --white: #ffffff;
+  --black: #000000;
+  --dark-gray: #333333;
+  --medium-gray: #666666;
+  --light-gray: #e0e0e0;
+  --lighter-gray: #f5f5f5;
+  --border-gray: #ddd;
+
+  /* Ombres */
+  --shadow-sm: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 10px 25px rgba(102, 126, 234, 0.3);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+  /* Espacements */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+
+  /* Typography */
+  --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Font sizes */
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-lg: 15px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-size-4xl: 48px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease-out;
+
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 15px;
+
+  /* Z-index */
+  --z-background: -1;
+  --z-base: 1;
+  --z-card: 10;
+  --z-modal: 100;
+}
+
+/* ============================================
+   2.5 BOUTONS DE BASCULEMENT DE THÈME
+   ============================================ */
+
+.theme-buttons {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.theme-btn {
+  padding: 10px 16px;
+  border-radius: 25px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  color: var(--dark-gray);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.theme-btn.active {
+  background: var(--white);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.theme-btn:active {
+  transform: translateY(0);
+}
+
+/* Styles des icônes */
+.theme-btn .icon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+  stroke: currentColor;
+  fill: none;
+  transition: all var(--transition-normal);
+}
+
+/* ============================================
+   2.6 ANCIEN BOUTON DE THÈME (SUPPRIMÉ)
+   ============================================ */
+
+.theme-toggle {
+  display: none;
+}
+
+/* ============================================
+   2. RESET GLOBAL
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--dark-gray);
+  line-height: 1.6;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+}
+
+/* ============================================
+   3. CONTENEUR PRINCIPAL
+   ============================================ */
+
+.login-container {
+  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--primary-dark) 100%
+  );
+  font-family: var(--font-family);
+  position: relative;
+  overflow: hidden;
+  padding: var(--spacing-md);
+}
+
+/* Fond semi-transparent sombre */
+.login-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  z-index: var(--z-background);
+}
+
+/* ============================================
+   4. CARTE DE CONNEXION
+   ============================================ */
+
+.login-card {
+  background: var(--white) !important;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-3xl);
+  width: 100%;
+  max-width: 420px;
+  z-index: var(--z-card);
+  animation: slideUp var(--transition-slow);
+  color: var(--dark-gray) !important;
+  position: relative;
+}
+
+/* Variante sombre de la carte */
+.login-card.dark-mode {
+  background-color: #1a1a1a !important;
+  color: #f5f5f5 !important;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   5. EN-TÊTE DE LA CONNEXION
+   ============================================ */
+
+.login-header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+/* Logo du salon */
+.salon-logo {
+  font-size: var(--font-size-4xl);
+  margin-bottom: var(--spacing-lg);
+  animation: bounce 1s ease-in-out infinite;
+  display: block;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Titre principal */
+.login-header h1 {
+  font-size: var(--font-size-3xl);
+  color: var(--dark-gray) !important;
+  margin: var(--spacing-sm) 0;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 2px;
+}
+
+/* Mode sombre - Titre */
+.login-card.dark-mode .login-header h1 {
+  color: #f5f5f5 !important;
+}
+
+/* Sous-titre */
+.subtitle {
+  color: var(--medium-gray) !important;
+  font-size: var(--font-size-sm);
+  margin: var(--spacing-xs) 0 0 0;
+  font-weight: var(--font-weight-normal);
+}
+
+/* Mode sombre - Sous-titre */
+.login-card.dark-mode .subtitle {
+  color: #ccc !important;
+}
+
+/* ============================================
+   6. FORMULAIRE DE CONNEXION
+   ============================================ */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Groupe de formulaire */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--dark-gray) !important;
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Mode sombre - Étiquettes */
+.login-card.dark-mode .form-group label {
+  color: #f5f5f5 !important;
+}
+
+/* Champs d'entrée */
+.form-group input {
+  padding: 12px var(--spacing-md);
+  border: 2px solid var(--light-gray);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  transition: all var(--transition-normal);
+  font-family: inherit;
+  background-color: var(--white) !important;
+  color: var(--dark-gray) !important;
+}
+
+.form-group input::placeholder {
+  color: #999;
+}
+
+/* Mode sombre - Placeholder */
+.login-card.dark-mode .form-group input::placeholder {
+  color: #ccc;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background-color: var(--primary-light);
+}
+
+.form-group input:disabled {
+  background-color: var(--lighter-gray);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Mode sombre - Champs d'entrée */
+.login-card.dark-mode .form-group input {
+  background-color: #2a2a2a !important;
+  color: #f5f5f5 !important;
+  border-color: #444;
+}
+
+.login-card.dark-mode .form-group input::placeholder {
+  color: #999 !important;
+}
+
+.login-card.dark-mode .form-group input:focus {
+  background-color: rgba(102, 126, 234, 0.1) !important;
+  border-color: var(--primary-color);
+  color: #f5f5f5 !important;
+}
+
+.login-card.dark-mode .form-group input:disabled {
+  background-color: #1a1a1a;
+}
+
+/* Message d'erreur */
+.error-message {
+  color: var(--error-text);
+  font-size: var(--font-size-xs);
+  margin-top: var(--spacing-xs);
+  display: block;
+  font-weight: var(--font-weight-medium);
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* ============================================
+   7. ALERTES
+   ============================================ */
+
+.alert {
+  padding: 12px var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  animation: fadeIn var(--transition-normal);
+  border-left: 4px solid;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Alerte erreur */
+.alert-danger {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  border-color: var(--error-border);
+}
+
+/* Alerte succès */
+.alert-success {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border-color: var(--success-border);
+}
+
+/* ============================================
+   8. BOUTON DE CONNEXION
+   ============================================ */
+
+.btn-login {
+  padding: 14px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--primary-dark) 100%
+  );
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: var(--spacing-md);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.25);
+}
+
+.btn-login:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-login:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.btn-login:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   9. PIED DE PAGE DE CONNEXION
+   ============================================ */
+
+.login-footer {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+.forgot-password,
+.signup-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  transition: color var(--transition-normal);
+  position: relative;
+}
+
+.forgot-password::after,
+.signup-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--primary-color);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-normal);
+}
+
+.forgot-password:hover::after,
+.signup-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.forgot-password:hover,
+.signup-link:hover {
+  color: var(--primary-dark);
+}
+
+.divider {
+  color: var(--border-gray);
+  font-weight: var(--font-weight-light);
+}
+
+/* ============================================
+   10. RESPONSIVE DESIGN - DESKTOP FIRST
+   ============================================ */
+
+/* Très grands écrans (1440px+) */
+@media (min-width: 1440px) {
+  .login-card {
+    max-width: 450px;
+  }
+
+  .login-header h1 {
+    font-size: 32px;
+  }
+
+  .salon-logo {
+    font-size: 52px;
+  }
+}
+
+/* Écrans intermédiaires (1024px - 1440px) */
+@media (max-width: 1024px) {
+  .login-card {
+    padding: 45px 35px;
+    max-width: 400px;
+  }
+
+  .login-header h1 {
+    font-size: 26px;
+  }
+
+  .salon-logo {
+    font-size: 44px;
+  }
+}
+
+/* Tablettes - Medium screens (768px - 1024px) */
+@media (max-width: 768px) {
+  .login-container {
+    padding: var(--spacing-lg);
+  }
+
+  .login-card {
+    padding: 35px 28px;
+    max-width: 380px;
+    border-radius: var(--radius-lg);
+  }
+
+  .login-header {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .login-header h1 {
+    font-size: 24px;
+    letter-spacing: 1px;
+  }
+
+  .salon-logo {
+    font-size: 40px;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .login-form {
+    gap: var(--spacing-md);
+  }
+
+  .form-group input {
+    padding: 11px 13px;
+    font-size: 15px;
+  }
+
+  .btn-login {
+    padding: 12px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  .login-footer {
+    font-size: 12px;
+    gap: var(--spacing-sm);
+  }
+}
+
+/* Mobiles - Small screens (480px - 768px) */
+@media (max-width: 480px) {
+  .login-container {
+    padding: var(--spacing-sm);
+  }
+
+  .login-card {
+    padding: 25px 18px;
+    margin: var(--spacing-sm);
+    max-width: 100%;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .login-header {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .login-header h1 {
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    margin: var(--spacing-sm) 0;
+  }
+
+  .salon-logo {
+    font-size: 36px;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .subtitle {
+    font-size: 12px;
+  }
+
+  .login-form {
+    gap: var(--spacing-md);
+  }
+
+  .form-group label {
+    font-size: 13px;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .form-group input {
+    padding: 11px 12px;
+    font-size: 16px; /* Important pour éviter le zoom sur iOS */
+    border-radius: var(--radius-sm);
+  }
+
+  .form-group input:focus {
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.15);
+  }
+
+  .error-message {
+    font-size: 11px;
+    margin-top: var(--spacing-xs);
+  }
+
+  .alert {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .btn-login {
+    padding: 11px 12px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    margin-top: var(--spacing-md);
+    border-radius: var(--radius-sm);
+  }
+
+  .btn-login:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+  }
+
+  .login-footer {
+    margin-top: var(--spacing-lg);
+    font-size: 11px;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  .divider {
+    display: none;
+  }
+}
+
+/* Extra petits écrans (< 375px) */
+@media (max-width: 374px) {
+  .login-card {
+    padding: 20px 15px;
+    margin: var(--spacing-xs);
+  }
+
+  .login-header {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .login-header h1 {
+    font-size: 18px;
+    margin: 6px 0;
+  }
+
+  .salon-logo {
+    font-size: 32px;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .subtitle {
+    font-size: 11px;
+  }
+
+  .login-form {
+    gap: var(--spacing-md);
+  }
+
+  .form-group label {
+    font-size: 12px;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .form-group input {
+    padding: 10px 11px;
+    font-size: 14px;
+  }
+
+  .form-group input:focus {
+    box-shadow: 0 0 0 1px rgba(102, 126, 234, 0.1);
+  }
+
+  .btn-login {
+    padding: 10px;
+    font-size: 12px;
+  }
+}
+
+/* ============================================
+   10.5 STYLES DU MODE SOMBRE
+   ============================================ */
+
+/* Message d'erreur en mode sombre */
+.login-card.dark-mode .error-message {
+  color: #ff6b6b;
+}
+
+/* Alertes en mode sombre */
+.login-card.dark-mode .alert-danger {
+  background-color: rgba(231, 76, 60, 0.2);
+  color: #ff6b6b;
+  border-color: #c0392b;
+}
+
+.login-card.dark-mode .alert-success {
+  background-color: rgba(39, 174, 96, 0.2);
+  color: #51cf66;
+  border-color: #27ae60;
+}
+
+/* Liens en mode sombre */
+.login-card.dark-mode .forgot-password,
+.login-card.dark-mode .signup-link {
+  color: #8a9cff;
+}
+
+.login-card.dark-mode .forgot-password:hover,
+.login-card.dark-mode .signup-link:hover {
+  color: #b5c4ff;
+}
+
+.login-card.dark-mode .divider {
+  color: #444;
+}
+
+/* ============================================
+   11. ACCESSIBILITÉ ET PRÉFÉRENCES UTILISATEUR
+   ============================================ */
+
+/* Mode sombre du système */
+@media (prefers-color-scheme: dark) {
+  .login-card {
+    background-color: #1a1a1a;
+    color: #f5f5f5;
+  }
+
+  .login-header h1 {
+    color: #f5f5f5;
+  }
+
+  .form-group label {
+    color: #f5f5f5;
+  }
+
+  .form-group input {
+    background-color: #2a2a2a;
+    color: #f5f5f5;
+    border-color: #444;
+  }
+
+  .form-group input:focus {
+    background-color: rgba(102, 126, 234, 0.1);
+  }
+}
+
+/* Préférence pour les mouvements réduits */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Focus visible pour l'accessibilité au clavier */
+.login-container *:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   12. IMPRESSION
+   ============================================ */
+
+@media print {
+  .login-container {
+    background: var(--white);
+  }
+
+  .login-background {
+    display: none;
+  }
+
+  .login-card {
+    box-shadow: none;
+    border: 1px solid var(--light-gray);
+  }
+
+  .btn-login {
+    display: none;
+  }
+}
