@@ -4,41 +4,44 @@ import Services from "./components/Services.vue";
 import Personnel from "./components/Personnel.vue";
 import POS from "./components/POS.vue";
 import Stock from "./components/Stock.vue";
+import LoginPage from "./components/LoginPage.vue";
 import { useAuth } from "./composables/useAuth";
 
 const routes = [
   {
     path: "/",
-    redirect: "/dashboard",
+    name: "Login",
+    component: LoginPage,
   },
   {
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
+    meta: { requiresAuth: true },
   },
   {
     path: "/services",
     name: "Services",
     component: Services,
-    meta: { requiresRole: "gerante" },
+    meta: { requiresAuth: true, requiresRole: "gerante" },
   },
   {
     path: "/personnel",
     name: "Personnel",
     component: Personnel,
-    meta: { requiresRole: "gerante" },
+    meta: { requiresAuth: true, requiresRole: "gerante" },
   },
   {
     path: "/stock",
     name: "Stock",
     component: Stock,
-    meta: { requiresRole: "gerante" },
+    meta: { requiresAuth: true, requiresRole: "gerante" },
   },
   {
     path: "/pos",
     name: "POS",
     component: POS,
-    meta: { requiresRole: ["gerante", "caissier"] },
+    meta: { requiresAuth: true, requiresRole: ["gerante", "caissier"] },
   },
 ];
 
@@ -48,24 +51,35 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const { currentUser, canAccess } = useAuth();
+  const { currentUser, initAuth } = useAuth();
 
-  if (!currentUser.value && to.name !== "Login") {
-    next("/");
+  // Initialiser l'authentification
+  initAuth();
+
+  const isAuthenticated = currentUser.value !== null;
+  const requiresAuth = to.meta.requiresAuth;
+
+  // Rediriger vers login si non authentifié
+  if (requiresAuth && !isAuthenticated) {
+    next({ name: "Login" });
     return;
   }
 
-  if (currentUser.value) {
-    const routeMeta = to.meta;
-    if (routeMeta.requiresRole) {
-      const allowedRoles = Array.isArray(routeMeta.requiresRole)
-        ? routeMeta.requiresRole
-        : [routeMeta.requiresRole];
+  // Rediriger vers dashboard si authentifié et accès à login
+  if (to.name === "Login" && isAuthenticated) {
+    next({ name: "Dashboard" });
+    return;
+  }
 
-      if (!allowedRoles.includes(currentUser.value.role)) {
-        next("/dashboard");
-        return;
-      }
+  // Vérifier les permissions par rôle
+  if (requiresAuth && to.meta.requiresRole && isAuthenticated) {
+    const allowedRoles = Array.isArray(to.meta.requiresRole)
+      ? to.meta.requiresRole
+      : [to.meta.requiresRole];
+
+    if (!allowedRoles.includes(currentUser.value.role)) {
+      next({ name: "Dashboard" });
+      return;
     }
   }
 

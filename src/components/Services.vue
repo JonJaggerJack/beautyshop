@@ -6,7 +6,13 @@
         <p class="page-subtitle">Gestion des services proposés par le salon</p>
       </div>
       <button type="button" class="btn-primary" @click="showAddModal = true">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg
+          class="icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <line x1="12" y1="5" x2="12" y2="19"></line>
           <line x1="5" y1="12" x2="19" y2="12"></line>
         </svg>
@@ -14,13 +20,13 @@
       </button>
     </header>
 
+    <div v-if="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+
     <div class="services-content">
       <div class="services-grid">
-        <div
-          v-for="service in services"
-          :key="service.id"
-          class="service-card"
-        >
+        <div v-for="service in services" :key="service.id" class="service-card">
           <div class="service-header">
             <h3>{{ service.name }}</h3>
             <div class="service-actions">
@@ -30,9 +36,18 @@
                 @click="editService(service)"
                 title="Modifier"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                  ></path>
                 </svg>
               </button>
               <button
@@ -41,9 +56,16 @@
                 @click="deleteService(service.id)"
                 title="Supprimer"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
                   <polyline points="3 6 5 6 21 6"></polyline>
-                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  <path
+                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                  ></path>
                 </svg>
               </button>
             </div>
@@ -53,10 +75,6 @@
               <div class="info-item">
                 <span class="label">Prix:</span>
                 <span class="value">{{ service.price }}€</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Durée:</span>
-                <span class="value">{{ service.duration }} min</span>
               </div>
               <div class="info-item">
                 <span class="label">Réservations:</span>
@@ -72,9 +90,11 @@
     </div>
 
     <!-- Modal d'ajout/édition -->
-    <div v-if="showAddModal" class="modal-overlay" @click="showAddModal = false">
+    <div v-if="showAddModal" class="modal-overlay" @click="closeModal">
       <div class="modal-content" @click.stop>
-        <h2>{{ editingService ? 'Modifier le service' : 'Nouveau service' }}</h2>
+        <h2>
+          {{ editingService ? "Modifier le service" : "Nouveau service" }}
+        </h2>
         <form @submit.prevent="saveService">
           <div class="form-group">
             <label>Nom du service</label>
@@ -82,22 +102,27 @@
           </div>
           <div class="form-group">
             <label>Prix (€)</label>
-            <input v-model.number="formData.price" type="number" step="0.01" required />
-          </div>
-          <div class="form-group">
-            <label>Durée (minutes)</label>
-            <input v-model.number="formData.duration" type="number" required />
+            <input
+              v-model.number="formData.price"
+              type="number"
+              step="0.01"
+              required
+            />
           </div>
           <div class="form-group">
             <label>Description</label>
             <textarea v-model="formData.description" rows="3"></textarea>
           </div>
           <div class="modal-actions">
-            <button type="button" class="btn-secondary" @click="showAddModal = false">
+            <button
+              type="button"
+              class="btn-secondary"
+              @click="showAddModal = false"
+            >
               Annuler
             </button>
             <button type="submit" class="btn-primary">
-              {{ editingService ? 'Modifier' : 'Ajouter' }}
+              {{ editingService ? "Modifier" : "Ajouter" }}
             </button>
           </div>
         </form>
@@ -107,58 +132,109 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
+import { useDataManager } from "../composables/useDataManager";
 
-const services = ref([
-  { id: 1, name: "Coupe Femme", price: 35, duration: 45, bookings: 12, description: "Coupe et brushing pour femme" },
-  { id: 2, name: "Coupe Homme", price: 25, duration: 30, bookings: 18, description: "Coupe classique pour homme" },
-  { id: 3, name: "Coloration", price: 50, duration: 90, bookings: 8, description: "Coloration complète des cheveux" },
-  { id: 4, name: "Lissage Brésilien", price: 80, duration: 120, bookings: 5, description: "Lissage brésilien professionnel" },
-  { id: 5, name: "Soin Capillaire", price: 40, duration: 60, bookings: 10, description: "Soin profond et hydratant" },
-]);
+const initialServices = [
+  {
+    id: 1,
+    name: "Coupe Femme",
+    price: 35,
+    bookings: 12,
+    description: "Coupe et brushing pour femme",
+  },
+  {
+    id: 2,
+    name: "Coupe Homme",
+    price: 25,
+    bookings: 18,
+    description: "Coupe classique pour homme",
+  },
+  {
+    id: 3,
+    name: "Coloration",
+    price: 50,
+    bookings: 8,
+    description: "Coloration complète des cheveux",
+  },
+  {
+    id: 4,
+    name: "Lissage Brésilien",
+    price: 80,
+    bookings: 5,
+    description: "Lissage brésilien professionnel",
+  },
+  {
+    id: 5,
+    name: "Soin Capillaire",
+    price: 40,
+    bookings: 10,
+    description: "Soin profond et hydratant",
+  },
+];
+
+const {
+  items: services,
+  addItem,
+  updateItem,
+  deleteItem,
+} = useDataManager("services", initialServices);
 
 const showAddModal = ref(false);
 const editingService = ref(null);
+const successMessage = ref("");
 
 const formData = reactive({
   name: "",
   price: 0,
-  duration: 0,
   description: "",
 });
 
 const editService = (service) => {
-  editingService.value = service;
+  editingService.value = { ...service };
   formData.name = service.name;
   formData.price = service.price;
-  formData.duration = service.duration;
   formData.description = service.description || "";
   showAddModal.value = true;
 };
 
 const saveService = () => {
-  if (editingService.value) {
-    // Modifier
-    const index = services.value.findIndex(s => s.id === editingService.value.id);
-    if (index !== -1) {
-      services.value[index] = { ...editingService.value, ...formData };
-    }
-  } else {
-    // Ajouter
-    const newId = Math.max(...services.value.map(s => s.id)) + 1;
-    services.value.push({
-      id: newId,
-      ...formData,
-      bookings: 0,
-    });
+  if (!formData.name.trim()) {
+    alert("Le nom du service est requis");
+    return;
   }
+  if (formData.price <= 0) {
+    alert("Le prix doit être supérieur à 0");
+    return;
+  }
+  if (formData.duration <= 0) {
+    alert("La durée doit être supérieure à 0");
+    return;
+  }
+
+  if (editingService.value) {
+    updateItem(editingService.value.id, { ...formData });
+    successMessage.value = "Service modifié avec succès!";
+  } else {
+    addItem({ ...formData, bookings: 0 });
+    successMessage.value = "Service ajouté avec succès!";
+  }
+
+  setTimeout(() => {
+    successMessage.value = "";
+  }, 3000);
+
   resetForm();
   showAddModal.value = false;
 };
 
 const deleteService = (id) => {
   if (confirm("Êtes-vous sûr de vouloir supprimer ce service ?")) {
-    services.value = services.value.filter(s => s.id !== id);
+    deleteItem(id);
+    successMessage.value = "Service supprimé avec succès!";
+    setTimeout(() => {
+      successMessage.value = "";
+    }, 3000);
   }
 };
 
@@ -166,8 +242,12 @@ const resetForm = () => {
   editingService.value = null;
   formData.name = "";
   formData.price = 0;
-  formData.duration = 0;
   formData.description = "";
+};
+
+const closeModal = () => {
+  resetForm();
+  showAddModal.value = false;
 };
 </script>
 
@@ -177,6 +257,28 @@ const resetForm = () => {
   height: 100%;
   overflow-y: auto;
   background: #f5f5f5;
+}
+
+.success-message {
+  padding: 16px 20px;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+  color: #155724;
+  margin-bottom: 20px;
+  font-weight: 600;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .page-header {

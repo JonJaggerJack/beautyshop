@@ -5,7 +5,77 @@
         <span class="sidebar-logo">💇‍♀️</span>
         <span class="sidebar-title">CHEZ JK</span>
       </div>
+
+      <!-- Profil Utilisateur -->
+      <div class="user-profile">
+        <div class="profile-avatar">{{ userInitial }}</div>
+        <div class="profile-info">
+          <p class="profile-name">{{ currentUser.name }}</p>
+          <p class="profile-role">{{ roleLabel }}</p>
+        </div>
+        <button class="logout-btn" @click="handleLogout" title="Déconnexion">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+
       <nav class="sidebar-nav">
+        <!-- Boutons de basculement du thème -->
+        <div class="theme-buttons">
+          <button
+            type="button"
+            @click="setLightMode"
+            class="theme-btn light-btn"
+            :class="{ active: !isDarkMode }"
+            title="Mode clair"
+          >
+            <svg
+              class="icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
+          <button
+            type="button"
+            @click="setDarkMode"
+            class="theme-btn dark-btn"
+            :class="{ active: isDarkMode }"
+            title="Mode sombre"
+          >
+            <svg
+              class="icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+
         <router-link to="/dashboard" class="nav-link" active-class="active"
           >Dashboard</router-link
         >
@@ -15,10 +85,12 @@
         <router-link to="/personnel" class="nav-link" active-class="active"
           >Personnel</router-link
         >
+        <router-link to="/stock" class="nav-link" active-class="active"
+          >Stock</router-link
+        >
         <router-link to="/pos" class="nav-link" active-class="active"
           >POS</router-link
         >
-        <button class="nav-link logout" @click="logout">Déconnexion</button>
       </nav>
     </aside>
     <main class="main-content">
@@ -28,10 +100,53 @@
 </template>
 
 <script setup>
-const emit = defineEmits(["logout"]);
-function logout() {
-  emit("logout");
-}
+import { computed, ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useAuth, ROLES } from "../composables/useAuth";
+
+const { currentUser, logout } = useAuth();
+const router = useRouter();
+const isDarkMode = ref(false);
+
+const userInitial = computed(() => {
+  return currentUser.value?.name?.charAt(0).toUpperCase() || "U";
+});
+
+const roleLabel = computed(() => {
+  const roleMap = {
+    [ROLES.GERANTE]: "Gérante",
+    [ROLES.UTILISATEUR]: "Utilisateur",
+    [ROLES.CAISSIER]: "Caissier",
+  };
+  return roleMap[currentUser.value?.role] || "Utilisateur";
+});
+
+const setLightMode = () => {
+  isDarkMode.value = false;
+  localStorage.setItem("darkMode", "false");
+  document.documentElement.classList.remove("dark-mode");
+};
+
+const setDarkMode = () => {
+  isDarkMode.value = true;
+  localStorage.setItem("darkMode", "true");
+  document.documentElement.classList.add("dark-mode");
+};
+
+const handleLogout = async () => {
+  logout();
+  await router.push("/");
+};
+
+onMounted(() => {
+  const savedDarkMode = localStorage.getItem("darkMode");
+  if (savedDarkMode !== null) {
+    isDarkMode.value = savedDarkMode === "true";
+    if (isDarkMode.value) {
+      document.documentElement.classList.add("dark-mode");
+    }
+  }
+});
 </script>
 
 <style scoped>
@@ -42,6 +157,7 @@ function logout() {
   width: 100vw;
   overflow: hidden;
 }
+
 .main-content {
   flex: 1;
   background: #f5f5f5;
@@ -56,5 +172,113 @@ function logout() {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-name {
+  margin: 0;
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-role {
+  margin: 2px 0 0 0;
+  font-size: 11px;
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.logout-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: currentColor;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.logout-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.theme-buttons {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  margin: 8px 0 16px 0;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  justify-content: center;
+  align-items: center;
+}
+
+.theme-btn {
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #e0e0e0;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.theme-btn.active {
+  background: rgba(102, 126, 234, 0.3);
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.theme-btn .icon {
+  width: 20px;
+  height: 20px;
 }
 </style>

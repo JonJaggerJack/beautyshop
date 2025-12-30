@@ -57,7 +57,23 @@ const DEMO_USERS = [
   },
 ];
 
+// État global partagé
 const currentUser = ref(null);
+
+// Initialiser l'authentification au démarrage
+const initAuthOnLoad = () => {
+  const token = localStorage.getItem("userToken");
+  if (token) {
+    try {
+      currentUser.value = JSON.parse(token);
+    } catch (e) {
+      localStorage.removeItem("userToken");
+    }
+  }
+};
+
+// Initialiser au chargement du module
+initAuthOnLoad();
 
 export function useAuth() {
   const login = (email, password) => {
@@ -85,14 +101,7 @@ export function useAuth() {
   };
 
   const initAuth = () => {
-    const token = localStorage.getItem("userToken");
-    if (token) {
-      try {
-        currentUser.value = JSON.parse(token);
-      } catch (e) {
-        localStorage.removeItem("userToken");
-      }
-    }
+    initAuthOnLoad();
   };
 
   const hasPermission = (permission) => {
@@ -137,4 +146,3 @@ export function useAuth() {
     ROLES,
   };
 }
-

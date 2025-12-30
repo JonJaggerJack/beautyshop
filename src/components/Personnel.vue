@@ -1,12 +1,21 @@
 <template>
   <div class="personnel-page">
+    <div v-if="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
     <header class="page-header">
       <div>
         <h1 class="page-title">Personnel</h1>
         <p class="page-subtitle">Gestion du personnel du salon</p>
       </div>
       <button type="button" class="btn-primary" @click="showAddModal = true">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg
+          class="icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <line x1="12" y1="5" x2="12" y2="19"></line>
           <line x1="5" y1="12" x2="19" y2="12"></line>
         </svg>
@@ -22,27 +31,46 @@
           class="personnel-card"
         >
           <div class="personnel-avatar">
-            <span>{{ member.initials }}</span>
+            <span>{{ getInitials(member.name) }}</span>
           </div>
           <div class="personnel-info">
             <h3>{{ member.name }}</h3>
             <p class="role">{{ member.role }}</p>
             <div class="personnel-details">
               <div class="detail-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  ></path>
                   <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
                 <span>{{ member.email }}</span>
               </div>
               <div class="detail-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                  ></path>
                 </svg>
                 <span>{{ member.phone }}</span>
               </div>
               <div class="detail-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                   <line x1="16" y1="2" x2="16" y2="6"></line>
                   <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -59,9 +87,18 @@
               @click="editMember(member)"
               title="Modifier"
             >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                ></path>
+                <path
+                  d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                ></path>
               </svg>
             </button>
             <button
@@ -70,9 +107,16 @@
               @click="deleteMember(member.id)"
               title="Supprimer"
             >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
                 <polyline points="3 6 5 6 21 6"></polyline>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <path
+                  d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                ></path>
               </svg>
             </button>
           </div>
@@ -81,9 +125,9 @@
     </div>
 
     <!-- Modal d'ajout/édition -->
-    <div v-if="showAddModal" class="modal-overlay" @click="showAddModal = false">
+    <div v-if="showAddModal" class="modal-overlay" @click="closeModal()">
       <div class="modal-content" @click.stop>
-        <h2>{{ editingMember ? 'Modifier le membre' : 'Nouveau membre' }}</h2>
+        <h2>{{ editingMember ? "Modifier le membre" : "Nouveau membre" }}</h2>
         <form @submit.prevent="saveMember">
           <div class="form-group">
             <label>Nom complet</label>
@@ -110,14 +154,18 @@
           </div>
           <div class="form-group">
             <label>Horaires</label>
-            <input v-model="formData.schedule" type="text" placeholder="Ex: Lun-Ven 9h-18h" />
+            <input
+              v-model="formData.schedule"
+              type="text"
+              placeholder="Ex: Lun-Ven 9h-18h"
+            />
           </div>
           <div class="modal-actions">
-            <button type="button" class="btn-secondary" @click="showAddModal = false">
+            <button type="button" class="btn-secondary" @click="closeModal()">
               Annuler
             </button>
             <button type="submit" class="btn-primary">
-              {{ editingMember ? 'Modifier' : 'Ajouter' }}
+              {{ editingMember ? "Modifier" : "Ajouter" }}
             </button>
           </div>
         </form>
@@ -127,9 +175,10 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
+import { useDataManager } from "../composables/useDataManager";
 
-const personnel = ref([
+const initialPersonnel = [
   {
     id: 1,
     name: "Marie Dupont",
@@ -154,10 +203,18 @@ const personnel = ref([
     phone: "06 34 56 78 90",
     schedule: "Mer-Dim 9h-17h",
   },
-]);
+];
+
+const {
+  items: personnel,
+  addItem,
+  updateItem,
+  deleteItem,
+} = useDataManager("personnel", initialPersonnel);
 
 const showAddModal = ref(false);
 const editingMember = ref(null);
+const successMessage = ref("");
 
 const formData = reactive({
   name: "",
@@ -177,7 +234,7 @@ const getInitials = (name) => {
 };
 
 const editMember = (member) => {
-  editingMember.value = member;
+  editingMember.value = { ...member };
   formData.name = member.name;
   formData.role = member.role;
   formData.email = member.email;
@@ -187,32 +244,38 @@ const editMember = (member) => {
 };
 
 const saveMember = () => {
-  if (editingMember.value) {
-    // Modifier
-    const index = personnel.value.findIndex((p) => p.id === editingMember.value.id);
-    if (index !== -1) {
-      personnel.value[index] = {
-        ...editingMember.value,
-        ...formData,
-        initials: getInitials(formData.name),
-      };
-    }
-  } else {
-    // Ajouter
-    const newId = Math.max(...personnel.value.map((p) => p.id), 0) + 1;
-    personnel.value.push({
-      id: newId,
-      ...formData,
-      initials: getInitials(formData.name),
-    });
+  if (!formData.name.trim()) {
+    alert("Le nom est requis");
+    return;
   }
+  if (!formData.email.includes("@")) {
+    alert("Veuillez entrer une adresse email valide");
+    return;
+  }
+
+  if (editingMember.value) {
+    updateItem(editingMember.value.id, { ...formData });
+    successMessage.value = "Membre modifié avec succès!";
+  } else {
+    addItem({ ...formData });
+    successMessage.value = "Membre ajouté avec succès!";
+  }
+
+  setTimeout(() => {
+    successMessage.value = "";
+  }, 3000);
+
   resetForm();
   showAddModal.value = false;
 };
 
 const deleteMember = (id) => {
-  if (confirm("Êtes-vous sûr de vouloir supprimer ce membre du personnel ?")) {
-    personnel.value = personnel.value.filter((p) => p.id !== id);
+  if (confirm("Êtes-vous sûr de vouloir supprimer ce membre ?")) {
+    deleteItem(id);
+    successMessage.value = "Membre supprimé avec succès!";
+    setTimeout(() => {
+      successMessage.value = "";
+    }, 3000);
   }
 };
 
@@ -224,6 +287,11 @@ const resetForm = () => {
   formData.phone = "";
   formData.schedule = "";
 };
+
+const closeModal = () => {
+  resetForm();
+  showAddModal.value = false;
+};
 </script>
 
 <style scoped>
@@ -232,6 +300,31 @@ const resetForm = () => {
   height: 100%;
   overflow-y: auto;
   background: #f5f5f5;
+}
+
+.success-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #27ae60;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: 500;
+  animation: slideIn 0.3s ease-out;
+  z-index: 2000;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .page-header {
@@ -281,21 +374,29 @@ const resetForm = () => {
   height: 20px;
 }
 
-.personnel-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-}
-
-.personnel-card {
+.personnel-content {
   background: white;
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.personnel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.personnel-card {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  border: 2px solid #e0e0e0;
   transition: all 0.2s;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  text-align: center;
 }
 
 .personnel-card:hover {
@@ -304,28 +405,24 @@ const resetForm = () => {
 }
 
 .personnel-avatar {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 700;
-  color: white;
-  margin: 0 auto;
-}
-
-.personnel-info {
-  text-align: center;
+  margin-bottom: 16px;
 }
 
 .personnel-info h3 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   color: #333;
-  margin: 0 0 8px 0;
+  margin: 0 0 4px 0;
 }
 
 .role {
@@ -339,29 +436,34 @@ const resetForm = () => {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
   text-align: left;
+  padding: 16px;
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 8px;
+  margin-bottom: 16px;
 }
 
 .detail-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 14px;
+  gap: 10px;
+  font-size: 13px;
   color: #666;
 }
 
 .detail-item svg {
-  width: 18px;
-  height: 18px;
-  color: #999;
+  width: 16px;
+  height: 16px;
+  color: #667eea;
+  flex-shrink: 0;
 }
 
 .personnel-actions {
   display: flex;
-  justify-content: center;
   gap: 8px;
-  padding-top: 16px;
-  border-top: 1px solid #e0e0e0;
+  justify-content: center;
+  width: 100%;
 }
 
 .btn-icon {
@@ -474,6 +576,10 @@ const resetForm = () => {
 }
 
 @media (max-width: 768px) {
+  .personnel-page {
+    padding: 20px;
+  }
+
   .page-header {
     flex-direction: column;
     gap: 20px;
@@ -486,6 +592,11 @@ const resetForm = () => {
 
   .personnel-grid {
     grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 20px;
   }
 }
 </style>

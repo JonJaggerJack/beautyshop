@@ -1,12 +1,21 @@
 <template>
   <div class="stock-page">
+    <div v-if="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
     <header class="page-header">
       <div>
         <h1 class="page-title">Gestion du Stock</h1>
         <p class="page-subtitle">Gestion des produits et inventaire</p>
       </div>
       <button type="button" class="btn-primary" @click="showAddModal = true">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg
+          class="icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <line x1="12" y1="5" x2="12" y2="19"></line>
           <line x1="5" y1="12" x2="19" y2="12"></line>
         </svg>
@@ -19,8 +28,15 @@
       <div class="stock-stats">
         <div class="stat-card">
           <div class="stat-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M20 7h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z"></path>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M20 7h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z"
+              ></path>
             </svg>
           </div>
           <div class="stat-info">
@@ -30,8 +46,15 @@
         </div>
         <div class="stat-card">
           <div class="stat-icon warning">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+              ></path>
               <line x1="12" y1="9" x2="12" y2="13"></line>
               <line x1="12" y1="17" x2="12.01" y2="17"></line>
             </svg>
@@ -43,7 +66,12 @@
         </div>
         <div class="stat-card">
           <div class="stat-icon success">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
               <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
@@ -60,7 +88,12 @@
         <div class="section-header">
           <h2>Produits en stock</h2>
           <div class="search-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <circle cx="11" cy="11" r="8"></circle>
               <path d="M21 21l-4.35-4.35"></path>
             </svg>
@@ -88,9 +121,18 @@
                   @click="editProduct(product)"
                   title="Modifier"
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                    ></path>
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                    ></path>
                   </svg>
                 </button>
                 <button
@@ -99,9 +141,16 @@
                   @click="deleteProduct(product.id)"
                   title="Supprimer"
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
                     <polyline points="3 6 5 6 21 6"></polyline>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <path
+                      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                    ></path>
                   </svg>
                 </button>
               </div>
@@ -110,7 +159,12 @@
               <div class="product-info">
                 <div class="info-row">
                   <span class="label">Quantité:</span>
-                  <span class="value" :class="{ 'low-stock-text': product.quantity <= product.minStock }">
+                  <span
+                    class="value"
+                    :class="{
+                      'low-stock-text': product.quantity <= product.minStock,
+                    }"
+                  >
                     {{ product.quantity }} {{ product.unit }}
                   </span>
                 </div>
@@ -124,17 +178,26 @@
                 </div>
                 <div class="info-row">
                   <span class="label">Stock minimum:</span>
-                  <span class="value">{{ product.minStock }} {{ product.unit }}</span>
+                  <span class="value"
+                    >{{ product.minStock }} {{ product.unit }}</span
+                  >
                 </div>
                 <div class="info-row">
                   <span class="label">Valeur stock:</span>
-                  <span class="value highlight">{{ (product.quantity * product.purchasePrice).toFixed(2) }}€</span>
+                  <span class="value highlight"
+                    >{{
+                      (product.quantity * product.purchasePrice).toFixed(2)
+                    }}€</span
+                  >
                 </div>
               </div>
               <div v-if="product.description" class="product-description">
                 {{ product.description }}
               </div>
-              <div v-if="product.quantity <= product.minStock" class="stock-alert">
+              <div
+                v-if="product.quantity <= product.minStock"
+                class="stock-alert"
+              >
                 ⚠️ Stock faible ! Réapprovisionnement nécessaire
               </div>
             </div>
@@ -144,9 +207,11 @@
     </div>
 
     <!-- Modal d'ajout/édition -->
-    <div v-if="showAddModal" class="modal-overlay" @click="showAddModal = false">
+    <div v-if="showAddModal" class="modal-overlay" @click="closeModal()">
       <div class="modal-content" @click.stop>
-        <h2>{{ editingProduct ? 'Modifier le produit' : 'Nouveau produit' }}</h2>
+        <h2>
+          {{ editingProduct ? "Modifier le produit" : "Nouveau produit" }}
+        </h2>
         <form @submit.prevent="saveProduct">
           <div class="form-group">
             <label>Nom du produit</label>
@@ -155,43 +220,67 @@
           <div class="form-row">
             <div class="form-group">
               <label>Quantité</label>
-              <input v-model.number="formData.quantity" type="number" min="0" required />
+              <input
+                v-model.number="formData.quantity"
+                type="number"
+                min="0"
+                required
+              />
             </div>
             <div class="form-group">
               <label>Unité</label>
               <select v-model="formData.unit" required>
-                <option value="unité">Unité</option>
+                <option value="bouteille">Bouteille</option>
+                <option value="pot">Pot</option>
+                <option value="boîte">Boîte</option>
+                <option value="paquet">Paquet</option>
                 <option value="kg">Kg</option>
                 <option value="L">L</option>
-                <option value="m">M</option>
-                <option value="paquet">Paquet</option>
+                <option value="ml">ml</option>
               </select>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label>Prix d'achat (€)</label>
-              <input v-model.number="formData.purchasePrice" type="number" step="0.01" min="0" required />
+              <input
+                v-model.number="formData.purchasePrice"
+                type="number"
+                step="0.01"
+                min="0"
+                required
+              />
             </div>
             <div class="form-group">
               <label>Prix de vente (€)</label>
-              <input v-model.number="formData.salePrice" type="number" step="0.01" min="0" required />
+              <input
+                v-model.number="formData.salePrice"
+                type="number"
+                step="0.01"
+                min="0"
+                required
+              />
             </div>
           </div>
           <div class="form-group">
             <label>Stock minimum</label>
-            <input v-model.number="formData.minStock" type="number" min="0" required />
+            <input
+              v-model.number="formData.minStock"
+              type="number"
+              min="0"
+              required
+            />
           </div>
           <div class="form-group">
             <label>Description</label>
             <textarea v-model="formData.description" rows="3"></textarea>
           </div>
           <div class="modal-actions">
-            <button type="button" class="btn-secondary" @click="showAddModal = false">
+            <button type="button" class="btn-secondary" @click="closeModal()">
               Annuler
             </button>
             <button type="submit" class="btn-primary">
-              {{ editingProduct ? 'Modifier' : 'Ajouter' }}
+              {{ editingProduct ? "Modifier" : "Ajouter" }}
             </button>
           </div>
         </form>
@@ -202,15 +291,16 @@
 
 <script setup>
 import { ref, reactive, computed } from "vue";
+import { useDataManager } from "../composables/useDataManager";
 
-const products = ref([
+const initialProducts = [
   {
     id: 1,
     name: "Shampooing Professionnel",
     quantity: 15,
     unit: "bouteille",
-    purchasePrice: 8.50,
-    salePrice: 15.00,
+    purchasePrice: 8.5,
+    salePrice: 15.0,
     minStock: 10,
     description: "Shampooing pour cheveux colorés",
   },
@@ -219,8 +309,8 @@ const products = ref([
     name: "Masque Capillaire",
     quantity: 8,
     unit: "pot",
-    purchasePrice: 12.00,
-    salePrice: 25.00,
+    purchasePrice: 12.0,
+    salePrice: 25.0,
     minStock: 10,
     description: "Masque hydratant intensif",
   },
@@ -229,8 +319,8 @@ const products = ref([
     name: "Coloration L'Oréal",
     quantity: 25,
     unit: "boîte",
-    purchasePrice: 5.50,
-    salePrice: 12.00,
+    purchasePrice: 5.5,
+    salePrice: 12.0,
     minStock: 15,
     description: "Coloration permanente",
   },
@@ -239,78 +329,102 @@ const products = ref([
     name: "Gants Jetables",
     quantity: 5,
     unit: "paquet",
-    purchasePrice: 3.00,
-    salePrice: 6.00,
+    purchasePrice: 3.0,
+    salePrice: 6.0,
     minStock: 10,
     description: "Paquet de 100 gants",
   },
-]);
+];
+
+const {
+  items: products,
+  addItem,
+  updateItem,
+  deleteItem,
+  search,
+} = useDataManager("stock", initialProducts);
 
 const showAddModal = ref(false);
 const editingProduct = ref(null);
+const successMessage = ref("");
 const searchQuery = ref("");
 
 const formData = reactive({
   name: "",
   quantity: 0,
-  unit: "unité",
+  unit: "bouteille",
   purchasePrice: 0,
   salePrice: 0,
   minStock: 0,
   description: "",
 });
 
-const totalProducts = computed(() => products.value.length);
-
-const lowStockCount = computed(() => {
-  return products.value.filter(p => p.quantity <= p.minStock).length;
-});
-
-const totalValue = computed(() => {
-  return products.value.reduce((sum, p) => sum + (p.quantity * p.purchasePrice), 0).toFixed(2);
-});
-
 const filteredProducts = computed(() => {
   if (!searchQuery.value) return products.value;
-  const query = searchQuery.value.toLowerCase();
-  return products.value.filter(p =>
-    p.name.toLowerCase().includes(query) ||
-    p.description?.toLowerCase().includes(query)
-  );
+  return search(searchQuery.value, ["name", "description"]);
 });
 
+const totalProducts = computed(() => products.value.length);
+
+const lowStockCount = computed(
+  () => products.value.filter((p) => p.quantity <= p.minStock).length
+);
+
+const totalValue = computed(() =>
+  products.value
+    .reduce((sum, p) => sum + p.quantity * p.purchasePrice, 0)
+    .toFixed(2)
+);
+
 const editProduct = (product) => {
-  editingProduct.value = product;
+  editingProduct.value = { ...product };
   formData.name = product.name;
   formData.quantity = product.quantity;
   formData.unit = product.unit;
   formData.purchasePrice = product.purchasePrice;
   formData.salePrice = product.salePrice;
   formData.minStock = product.minStock;
-  formData.description = product.description || "";
+  formData.description = product.description;
   showAddModal.value = true;
 };
 
 const saveProduct = () => {
-  if (editingProduct.value) {
-    const index = products.value.findIndex(p => p.id === editingProduct.value.id);
-    if (index !== -1) {
-      products.value[index] = { ...editingProduct.value, ...formData };
-    }
-  } else {
-    const newId = Math.max(...products.value.map(p => p.id), 0) + 1;
-    products.value.push({
-      id: newId,
-      ...formData,
-    });
+  if (!formData.name.trim()) {
+    alert("Le nom du produit est requis");
+    return;
   }
+  if (formData.quantity < 0) {
+    alert("La quantité ne peut pas être négative");
+    return;
+  }
+  if (formData.purchasePrice <= 0 || formData.salePrice <= 0) {
+    alert("Les prix doivent être supérieurs à 0");
+    return;
+  }
+
+  if (editingProduct.value) {
+    updateItem(editingProduct.value.id, { ...formData });
+    successMessage.value = "Produit modifié avec succès!";
+  } else {
+    addItem({ ...formData });
+    successMessage.value = "Produit ajouté avec succès!";
+  }
+
+  setTimeout(() => {
+    successMessage.value = "";
+  }, 3000);
+
   resetForm();
   showAddModal.value = false;
 };
 
 const deleteProduct = (id) => {
   if (confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
-    products.value = products.value.filter(p => p.id !== id);
+    deleteItem(id);
+    successMessage.value = "Produit supprimé avec succès!";
+    setTimeout(() => {
+      successMessage.value = "";
+    }, 3000);
   }
 };
 
@@ -318,11 +432,16 @@ const resetForm = () => {
   editingProduct.value = null;
   formData.name = "";
   formData.quantity = 0;
-  formData.unit = "unité";
+  formData.unit = "bouteille";
   formData.purchasePrice = 0;
   formData.salePrice = 0;
   formData.minStock = 0;
   formData.description = "";
+};
+
+const closeModal = () => {
+  resetForm();
+  showAddModal.value = false;
 };
 </script>
 
@@ -332,6 +451,31 @@ const resetForm = () => {
   height: 100%;
   overflow-y: auto;
   background: #f5f5f5;
+}
+
+.success-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #27ae60;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: 500;
+  animation: slideIn 0.3s ease-out;
+  z-index: 2000;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .page-header {
@@ -564,6 +708,12 @@ const resetForm = () => {
   color: #e74c3c;
 }
 
+.product-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .product-info {
   display: flex;
   flex-direction: column;
@@ -598,18 +748,20 @@ const resetForm = () => {
 }
 
 .product-description {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid #e0e0e0;
+  margin-top: 4px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.03);
+  border-left: 3px solid #667eea;
+  border-radius: 4px;
   font-size: 13px;
-  color: #666;
+  color: #555;
   line-height: 1.6;
 }
 
 .stock-alert {
-  margin-top: 12px;
+  margin-top: 4px;
   padding: 10px;
-  background: rgba(241, 196, 15, 0.1);
+  background: rgba(241, 196, 15, 0.15);
   border-left: 3px solid #f39c12;
   border-radius: 4px;
   font-size: 13px;
@@ -707,6 +859,10 @@ const resetForm = () => {
 }
 
 @media (max-width: 768px) {
+  .stock-page {
+    padding: 20px;
+  }
+
   .page-header {
     flex-direction: column;
     gap: 20px;
@@ -717,12 +873,26 @@ const resetForm = () => {
     justify-content: center;
   }
 
+  .stock-stats {
+    grid-template-columns: 1fr;
+  }
+
   .products-grid {
     grid-template-columns: 1fr;
   }
 
   .form-row {
     grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .search-box {
+    min-width: auto;
+    width: 100%;
   }
 }
 </style>

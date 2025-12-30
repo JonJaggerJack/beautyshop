@@ -6,57 +6,6 @@
         <h1 class="dashboard-title">CHEZ JK</h1>
         <p class="dashboard-subtitle">Tableau de Bord</p>
       </div>
-      <div class="header-right">
-        <button
-          type="button"
-          @click="toggleTheme"
-          class="theme-btn"
-          :class="{ active: isDarkMode }"
-        >
-          <svg
-            v-if="!isDarkMode"
-            class="icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-          <svg
-            v-else
-            class="icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
-        <button type="button" @click="logout" class="logout-btn">
-          <svg
-            class="icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-          <span>Déconnexion</span>
-        </button>
-      </div>
     </header>
 
     <!-- Main Content -->
@@ -160,7 +109,6 @@
               <tr>
                 <th>Service</th>
                 <th>Prix</th>
-                <th>Durée</th>
                 <th>Réservations</th>
                 <th>Actions</th>
               </tr>
@@ -169,7 +117,6 @@
               <tr v-for="service in services" :key="service.id">
                 <td>{{ service.name }}</td>
                 <td>{{ service.price }}€</td>
-                <td>{{ service.duration }}min</td>
                 <td>{{ service.bookings }}</td>
                 <td class="actions-cell">
                   <button
@@ -235,11 +182,11 @@ const stats = ref({
 });
 
 const services = ref([
-  { id: 1, name: "Coupe Femme", price: 35, duration: 45, bookings: 12 },
-  { id: 2, name: "Coupe Homme", price: 25, duration: 30, bookings: 18 },
-  { id: 3, name: "Coloration", price: 50, duration: 90, bookings: 8 },
-  { id: 4, name: "Lissage Brésilien", price: 80, duration: 120, bookings: 5 },
-  { id: 5, name: "Soin Capillaire", price: 40, duration: 60, bookings: 10 },
+  { id: 1, name: "Coupe Femme", price: 35, bookings: 12 },
+  { id: 2, name: "Coupe Homme", price: 25, bookings: 18 },
+  { id: 3, name: "Coloration", price: 50, bookings: 8 },
+  { id: 4, name: "Lissage Brésilien", price: 80, bookings: 5 },
+  { id: 5, name: "Soin Capillaire", price: 40, bookings: 10 },
 ]);
 
 const upcomingAppointments = ref([
