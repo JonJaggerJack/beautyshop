@@ -3,13 +3,6 @@
   "devCommand": "yarn dev",
   "outputDirectory": "dist",
   "framework": "vite",
-  "env": {},
-  "regions": ["cdg1"],
-  "functions": {
-    "api/**/*.js": {
-      "maxDuration": 10
-    }
-  },
   "rewrites": [
     {
       "source": "/(.*)",
