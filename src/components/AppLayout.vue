@@ -8,23 +8,43 @@
 
       <!-- Profil Utilisateur -->
       <div class="user-profile">
-        <div class="profile-avatar">{{ userInitial }}</div>
+        <div class="profile-avatar">
+          <img
+            v-if="currentUser.photo"
+            :src="currentUser.photo"
+            :alt="currentUser.name"
+            class="profile-photo"
+          />
+          <span v-else>{{ userInitial }}</span>
+        </div>
         <div class="profile-info">
           <p class="profile-name">{{ currentUser.name }}</p>
           <p class="profile-role">{{ roleLabel }}</p>
+          <p class="profile-email">{{ currentUser.email }}</p>
         </div>
-        <button class="logout-btn" @click="handleLogout" title="Déconnexion">
+        <input
+          ref="photoInput"
+          type="file"
+          accept="image/*"
+          class="photo-upload"
+          @change="handlePhotoUpload"
+          style="display: none"
+        />
+        <button
+          class="photo-btn"
+          @click="$refs.photoInput.click()"
+          title="Changer photo"
+        >
           <svg
-            width="18"
-            height="18"
+            width="14"
+            height="14"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
           >
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
+            <circle cx="12" cy="12" r="1"></circle>
+            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7"></path>
           </svg>
         </button>
       </div>
@@ -155,6 +175,25 @@
           </svg>
           <span class="nav-label">POS</span>
         </router-link>
+
+        <button
+          class="nav-link logout-link"
+          @click="handleLogout"
+          title="Déconnexion"
+        >
+          <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span class="nav-label">Déconnexion</span>
+        </button>
       </nav>
     </aside>
     <main class="main-content">
@@ -202,6 +241,27 @@ const handleLogout = async () => {
   await router.push("/");
 };
 
+const photoInput = ref(null);
+
+const handlePhotoUpload = (event) => {
+  const file = event.target.files?.[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      currentUser.value.photo = e.target.result;
+      localStorage.setItem(
+        "users",
+        JSON.stringify(
+          JSON.parse(localStorage.getItem("users") || "[]").map((u) =>
+            u.id === currentUser.value.id ? currentUser.value : u
+          )
+        )
+      );
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
 onMounted(() => {
   const savedDarkMode = localStorage.getItem("darkMode");
   if (savedDarkMode !== null) {
@@ -243,16 +303,15 @@ onMounted(() => {
   align-items: center;
   gap: 10px;
   padding: 15px;
-  margin: 10px 0;
+  margin: 10px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.1);
-  margin-left: 10px;
-  margin-right: 10px;
+  position: relative;
 }
 
 .profile-avatar {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
@@ -260,8 +319,16 @@ onMounted(() => {
   justify-content: center;
   color: white;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 18px;
   flex-shrink: 0;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .profile-info {
@@ -281,28 +348,62 @@ onMounted(() => {
 .profile-role {
   margin: 2px 0 0 0;
   font-size: 11px;
-  opacity: 0.7;
+  opacity: 0.8;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.logout-btn {
-  background: transparent;
-  border: none;
+.profile-email {
+  margin: 2px 0 0 0;
+  font-size: 10px;
+  opacity: 0.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.photo-btn {
+  background: rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(102, 126, 234, 0.5);
+  color: #667eea;
   cursor: pointer;
-  color: currentColor;
   padding: 5px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
   flex-shrink: 0;
 }
 
-.logout-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+.photo-btn:hover {
+  background: rgba(102, 126, 234, 0.3);
+  border-color: #667eea;
+}
+
+.photo-upload {
+  display: none;
+}
+
+/* Logout button in nav */
+.logout-link {
+  margin-top: auto;
+  color: #e74c3c !important;
+  font-weight: 600;
+  border-top: 1px solid #333;
+  padding-top: 20px !important;
+  margin-top: 20px !important;
+}
+
+.logout-link:hover {
+  background: rgba(231, 76, 60, 0.15) !important;
+  color: #ff6b6b !important;
+  transform: translateX(4px);
+}
+
+.logout-link::before {
+  background: #e74c3c;
 }
 
 .theme-buttons {
@@ -353,11 +454,12 @@ onMounted(() => {
     justify-content: center;
     gap: 8px;
     padding: 12px 8px;
+    margin: 8px;
   }
 
   .profile-avatar {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     font-size: 14px;
   }
 
@@ -365,23 +467,29 @@ onMounted(() => {
     display: none;
   }
 
-  .logout-btn {
-    width: 44px;
-    height: 44px;
-    padding: 8px;
-    background: rgba(231, 76, 60, 0.15) !important;
-    border: 2px solid #e74c3c !important;
-    border-radius: 6px;
+  .photo-btn {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    padding: 6px;
   }
 
-  .logout-btn:hover {
-    background-color: rgba(231, 76, 60, 0.25) !important;
+  .logout-link {
+    margin-top: auto;
+    border-top: 1px solid #333;
+    padding-top: 12px !important;
+    margin-top: 12px !important;
   }
 
-  .logout-btn svg {
+  .logout-link .nav-icon {
     width: 24px;
     height: 24px;
-    color: #e74c3c;
+  }
+
+  .logout-link .nav-label {
+    display: block;
+    text-align: center;
+    width: 100%;
   }
 }
 </style>

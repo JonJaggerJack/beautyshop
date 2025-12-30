@@ -38,22 +38,28 @@ const PERMISSIONS = {
 // Utilisateurs de démo
 const DEMO_USERS = [
   {
+    id: 1,
     email: "gerante@salon.fr",
     password: "gerante123",
     role: ROLES.GERANTE,
     name: "Marie Dupont",
+    photo: null,
   },
   {
+    id: 2,
     email: "utilisateur@salon.fr",
     password: "user123",
     role: ROLES.UTILISATEUR,
     name: "Jean Martin",
+    photo: null,
   },
   {
+    id: 3,
     email: "caissier@salon.fr",
     password: "caissier123",
     role: ROLES.CAISSIER,
     name: "Sophie Bernard",
+    photo: null,
   },
 ];
 
@@ -83,9 +89,11 @@ export function useAuth() {
 
     if (user) {
       const userData = {
+        id: user.id,
         email: user.email,
         role: user.role,
         name: user.name,
+        photo: user.photo,
       };
       currentUser.value = userData;
       localStorage.setItem("userToken", JSON.stringify(userData));
