@@ -345,4 +345,43 @@ onMounted(() => {
   width: 20px;
   height: 20px;
 }
+
+@media (max-width: 900px) {
+  .user-profile {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 8px;
+  }
+
+  .profile-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .profile-info {
+    display: none;
+  }
+
+  .logout-btn {
+    width: 44px;
+    height: 44px;
+    padding: 8px;
+    background: rgba(231, 76, 60, 0.15) !important;
+    border: 2px solid #e74c3c !important;
+    border-radius: 6px;
+  }
+
+  .logout-btn:hover {
+    background-color: rgba(231, 76, 60, 0.25) !important;
+  }
+
+  .logout-btn svg {
+    width: 24px;
+    height: 24px;
+    color: #e74c3c;
+  }
+}
 </style>
