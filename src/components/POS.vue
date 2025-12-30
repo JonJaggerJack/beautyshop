@@ -325,8 +325,8 @@ import { useClients } from "../composables/useClients";
 const { currentUser, ROLES } = useAuth();
 const {
   clients,
+  invoices,
   createInvoice: createClientInvoice,
-  getInvoices,
   payInvoice,
   cancelInvoice,
   addClient,
@@ -394,7 +394,6 @@ const { items: services } = useDataManager("pos_services", initialServices);
 
 // État
 const cart = ref([]);
-const invoices = getInvoices();
 const selectedClientId = ref("");
 const showNewClientForm = ref(false);
 const newClientData = ref({ name: "", phone: "", email: "" });
