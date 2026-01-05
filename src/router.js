@@ -4,7 +4,10 @@ import Services from "./components/Services.vue";
 import Personnel from "./components/Personnel.vue";
 import POS from "./components/POS.vue";
 import Stock from "./components/Stock.vue";
+<<<<<<< HEAD
 import Appointments from "./components/Appointments.vue";
+=======
+>>>>>>> 221985dd1c9e7314dcef4ff974919bd24191779b
 import LoginPage from "./components/LoginPage.vue";
 import { useAuth } from "./composables/useAuth";
 
@@ -44,12 +47,15 @@ const routes = [
     component: POS,
     meta: { requiresAuth: true, requiresRole: ["gerante", "caissier"] },
   },
+<<<<<<< HEAD
   {
     path: "/appointments",
     name: "Appointments",
     component: Appointments,
     meta: { requiresAuth: true },
   },
+=======
+>>>>>>> 221985dd1c9e7314dcef4ff974919bd24191779b
 ];
 
 const router = createRouter({
