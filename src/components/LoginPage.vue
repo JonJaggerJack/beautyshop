@@ -3,8 +3,34 @@
     <div class="login-card">
       <!-- Header du salon -->
       <div class="login-header">
-        <div class="salon-logo">💇‍♀️</div>
-        <h1>CHEZ JK</h1>
+        <svg class="salon-logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <!-- Ciseaux à gauche -->
+          <g transform="translate(20, 35)">
+            <!-- Anneau gauche -->
+            <circle cx="8" cy="20" r="8" fill="none" stroke="currentColor" stroke-width="2.5"/>
+            <!-- Anneau droit -->
+            <circle cx="32" cy="20" r="8" fill="none" stroke="currentColor" stroke-width="2.5"/>
+            <!-- Lame supérieure gauche -->
+            <path d="M 16 15 Q 20 5 20 -5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Lame supérieure droite -->
+            <path d="M 24 15 Q 20 5 20 -5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Lame inférieure gauche -->
+            <path d="M 16 25 Q 20 35 20 45" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Lame inférieure droite -->
+            <path d="M 24 25 Q 20 35 20 45" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </g>
+          
+          <!-- Peigne à droite -->
+          <g transform="translate(70, 30)">
+            <!-- Manche -->
+            <rect x="0" y="0" width="12" height="28" rx="3" fill="none" stroke="currentColor" stroke-width="2.5"/>
+            <!-- Dents -->
+            <line x1="3" y1="28" x2="3" y2="50" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="9" y1="28" x2="9" y2="50" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="28" x2="15" y2="50" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </g>
+        </svg>
+        <h1>BeautyShop</h1>
         <p class="subtitle">Système de Gestion</p>
       </div>
 
@@ -60,9 +86,14 @@
 
       <!-- Liens supplémentaires -->
       <div class="login-footer">
-        <a href="#" class="forgot-password">Mot de passe oublié?</a>
-        <span class="divider">|</span>
-        <a href="#" class="signup-link">Créer un compte</a>
+        <p class="support-text">
+          Besoin de support ? 
+          <a href="tel:+243997775599">appelez le +243997775599</a>
+        </p>
+        <p class="info-text">
+          Pour plus d'infos: 
+          <a href="https://effyiskey.com" target="_blank">effyiskey.com</a>
+        </p>
       </div>
     </div>
 

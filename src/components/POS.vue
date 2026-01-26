@@ -231,7 +231,7 @@
                     Payer
                   </button>
                   <button
-                    v-if="invoice.status === 'pending' && isGerante"
+                    v-if="invoice.status === 'pending' && canCancelInvoice"
                     @click="cancelInvoiceDialog(invoice)"
                     class="btn-cancel-invoice"
                   >
@@ -342,7 +342,10 @@ const canAccess = computed(() => {
 
 const isGerante = computed(() => currentUser.value?.role === ROLES.GERANTE);
 
-// Services
+const canCancelInvoice = computed(() => {
+  if (!currentUser.value) return false;
+  return currentUser.value.role === ROLES.GERANTE;
+});
 const initialServices = [
   {
     id: 1,

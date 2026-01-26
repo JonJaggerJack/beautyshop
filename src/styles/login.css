@@ -253,20 +253,12 @@ body {
 
 /* Logo du salon */
 .salon-logo {
-  font-size: var(--font-size-4xl);
-  margin-bottom: var(--spacing-lg);
-  animation: bounce 1s ease-in-out infinite;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto var(--spacing-lg);
   display: block;
-}
-
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  color: var(--primary-color);
+  transition: transform 0.3s ease;
 }
 
 /* Titre principal */
@@ -490,48 +482,31 @@ body {
   margin-top: var(--spacing-lg);
   font-size: var(--font-size-sm);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-md);
 }
 
-.forgot-password,
-.signup-link {
+.support-text,
+.info-text {
+  margin: 0;
+  color: var(--medium-gray);
+  line-height: 1.5;
+}
+
+.support-text a,
+.info-text a {
   color: var(--primary-color);
   text-decoration: none;
   font-weight: var(--font-weight-medium);
-  transition: color var(--transition-normal);
-  position: relative;
+  transition: color var(--transition-normal), text-decoration var(--transition-normal);
 }
 
-.forgot-password::after,
-.signup-link::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background-color: var(--primary-color);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform var(--transition-normal);
-}
-
-.forgot-password:hover::after,
-.signup-link:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-.forgot-password:hover,
-.signup-link:hover {
+.support-text a:hover,
+.info-text a:hover {
   color: var(--primary-dark);
-}
-
-.divider {
-  color: var(--border-gray);
-  font-weight: var(--font-weight-light);
+  text-decoration: underline;
 }
 
 /* ============================================

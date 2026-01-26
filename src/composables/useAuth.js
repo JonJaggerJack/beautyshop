@@ -16,6 +16,7 @@ const PERMISSIONS = {
     canManageStock: true,
     canSell: true,
     canViewReports: true,
+    cancel_invoice: true,
   },
   [ROLES.UTILISATEUR]: {
     canViewDashboard: true,
@@ -24,6 +25,7 @@ const PERMISSIONS = {
     canManageStock: false,
     canSell: false,
     canViewReports: true,
+    cancel_invoice: false,
   },
   [ROLES.CAISSIER]: {
     canViewDashboard: true,
@@ -32,6 +34,7 @@ const PERMISSIONS = {
     canManageStock: false,
     canSell: true,
     canViewReports: false,
+    cancel_invoice: false,
   },
 };
 
