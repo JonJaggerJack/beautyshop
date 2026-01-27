@@ -20,6 +20,8 @@ onMounted(() => {
 </template>
 
 <style>
+@import "./styles/headers.css";
+
 * {
   margin: 0;
   padding: 0;
@@ -33,43 +35,11 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-html.dark-mode body {
-  background: #1a1a1a;
-  color: #e0e0e0;
-}
-
 html,
 body,
 #app {
   height: 100%;
   width: 100%;
 }
-
-/* Thème sombre global */
-html.dark-mode {
-  background: #1a1a1a;
-  color: #e0e0e0;
-}
-
-html.dark-mode input,
-html.dark-mode textarea,
-html.dark-mode select {
-  background: #2a2a2a;
-  color: #e0e0e0;
-  border-color: #444;
-}
-
-html.dark-mode button {
-  color: #e0e0e0;
-}
-
-html.dark-mode .login-container {
-  background: #1a1a1a;
-  color: #e0e0e0;
-}
-
-html.dark-mode .dashboard-container {
-  background: #1a1a1a;
-  color: #e0e0e0;
-}
 </style>
+

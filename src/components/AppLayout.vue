@@ -2,8 +2,7 @@
   <div class="layout-container">
     <aside class="sidebar">
       <div class="sidebar-header">
-        <span class="sidebar-logo">💇‍♀️</span>
-        <span class="sidebar-title">CHEZ JK</span>
+        <span class="sidebar-title">BeautyShop</span>
       </div>
 
       <!-- Profil Utilisateur -->
@@ -50,52 +49,6 @@
       </div>
 
       <nav class="sidebar-nav">
-        <!-- Boutons de basculement du thème -->
-        <div class="theme-buttons">
-          <button
-            type="button"
-            @click="setLightMode"
-            class="theme-btn light-btn"
-            :class="{ active: !isDarkMode }"
-            title="Mode clair"
-          >
-            <svg
-              class="icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-          </button>
-          <button
-            type="button"
-            @click="setDarkMode"
-            class="theme-btn dark-btn"
-            :class="{ active: isDarkMode }"
-            title="Mode sombre"
-          >
-            <svg
-              class="icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          </button>
-        </div>
-
         <router-link to="/dashboard" class="nav-link" active-class="active">
           <svg
             class="nav-icon"
@@ -142,7 +95,35 @@
           </svg>
           <span class="nav-label">Personnel</span>
         </router-link>
+        <router-link to="/clients" class="nav-link" active-class="active">
+          <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span class="nav-label">Clients</span>
+        </router-link>
 
+        <router-link to="/reservations" class="nav-link" active-class="active">
+          <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span class="nav-label">Réservations</span>
+        </router-link>
         <router-link to="/stock" class="nav-link" active-class="active">
           <svg
             class="nav-icon"
@@ -209,7 +190,6 @@ import { useAuth, ROLES } from "../composables/useAuth";
 
 const { currentUser, logout } = useAuth();
 const router = useRouter();
-const isDarkMode = ref(false);
 
 const userInitial = computed(() => {
   return currentUser.value?.name?.charAt(0).toUpperCase() || "U";
@@ -223,18 +203,6 @@ const roleLabel = computed(() => {
   };
   return roleMap[currentUser.value?.role] || "Utilisateur";
 });
-
-const setLightMode = () => {
-  isDarkMode.value = false;
-  localStorage.setItem("darkMode", "false");
-  document.documentElement.classList.remove("dark-mode");
-};
-
-const setDarkMode = () => {
-  isDarkMode.value = true;
-  localStorage.setItem("darkMode", "true");
-  document.documentElement.classList.add("dark-mode");
-};
 
 const handleLogout = async () => {
   logout();
@@ -261,16 +229,6 @@ const handlePhotoUpload = (event) => {
     reader.readAsDataURL(file);
   }
 };
-
-onMounted(() => {
-  const savedDarkMode = localStorage.getItem("darkMode");
-  if (savedDarkMode !== null) {
-    isDarkMode.value = savedDarkMode === "true";
-    if (isDarkMode.value) {
-      document.documentElement.classList.add("dark-mode");
-    }
-  }
-});
 </script>
 
 <style scoped>
@@ -313,7 +271,7 @@ onMounted(() => {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4bbbfb 0%, #2a2970 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -366,7 +324,7 @@ onMounted(() => {
 .photo-btn {
   background: rgba(102, 126, 234, 0.2);
   border: 1px solid rgba(102, 126, 234, 0.5);
-  color: #667eea;
+  color: #4bbbfb;
   cursor: pointer;
   padding: 5px;
   border-radius: 4px;
@@ -379,7 +337,7 @@ onMounted(() => {
 
 .photo-btn:hover {
   background: rgba(102, 126, 234, 0.3);
-  border-color: #667eea;
+  border-color: #4bbbfb;
 }
 
 .photo-upload {
@@ -438,8 +396,8 @@ onMounted(() => {
 
 .theme-btn.active {
   background: rgba(102, 126, 234, 0.3);
-  border-color: #667eea;
-  color: #667eea;
+  border-color: #4bbbfb;
+  color: #4bbbfb;
 }
 
 .theme-btn .icon {
@@ -493,3 +451,4 @@ onMounted(() => {
   }
 }
 </style>
+

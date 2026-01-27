@@ -15,7 +15,14 @@
     <div v-else>
       <header class="page-header">
         <div>
-          <h1 class="page-title">Point de Vente</h1>
+          <div class="header-title">
+            <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <h1 class="page-title">Point de Vente</h1>
+          </div>
           <p class="page-subtitle">Gestion des ventes et encaissements</p>
         </div>
         <div class="header-stats">
@@ -153,7 +160,7 @@
         <div class="middle-panel">
           <div class="services-section">
             <div class="section-header">
-              <h2>Services</h2>
+              <h2>📋 Services & Produits</h2>
               <input
                 v-model="searchQuery"
                 type="text"
@@ -162,7 +169,24 @@
               />
             </div>
 
-            <div class="services-grid">
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+              <button
+                @click="activeTab = 'services'"
+                :class="['tab-btn', { active: activeTab === 'services' }]"
+              >
+                💇 Services
+              </button>
+              <button
+                @click="activeTab = 'products'"
+                :class="['tab-btn', { active: activeTab === 'products' }]"
+              >
+                📦 Produits Stock
+              </button>
+            </div>
+
+            <!-- Services Grid -->
+            <div v-if="activeTab === 'services'" class="services-grid">
               <button
                 v-for="service in filteredServices"
                 :key="service.id"
@@ -171,6 +195,20 @@
               >
                 <span class="service-name">{{ service.name }}</span>
                 <span class="service-price">{{ service.salePrice }}€</span>
+              </button>
+            </div>
+
+            <!-- Products Grid -->
+            <div v-if="activeTab === 'products'" class="services-grid">
+              <button
+                v-for="product in filteredProducts"
+                :key="'prod-' + product.id"
+                @click="addToCart({ ...product, type: 'product' })"
+                class="service-btn product-btn"
+              >
+                <span class="service-name">{{ product.name }}</span>
+                <span class="service-price">{{ product.salePrice }}€</span>
+                <span class="product-stock">📦 {{ product.quantity }} en stock</span>
               </button>
             </div>
           </div>
@@ -236,6 +274,13 @@
                     class="btn-cancel-invoice"
                   >
                     Annuler
+                  </button>
+                  <button
+                    @click="showInvoicePrint(invoice)"
+                    class="btn-print"
+                    title="Imprimer facture"
+                  >
+                    🖨 Imprimer
                   </button>
                 </div>
               </div>
@@ -312,6 +357,13 @@
           </div>
         </div>
       </div>
+
+      <!-- Component Impression -->
+      <InvoicePrint
+        v-if="invoiceToPrint"
+        :invoice="invoiceToPrint"
+        @close="invoiceToPrint = null"
+      />
     </div>
   </div>
 </template>
@@ -321,6 +373,7 @@ import { ref, computed } from "vue";
 import { useAuth } from "../composables/useAuth";
 import { useDataManager } from "../composables/useDataManager";
 import { useClients } from "../composables/useClients";
+import InvoicePrint from "./InvoicePrint.vue";
 
 const { currentUser, ROLES } = useAuth();
 const {
@@ -395,6 +448,9 @@ const initialServices = [
 
 const { items: services } = useDataManager("pos_services", initialServices);
 
+// Products from stock - load from the same storage as Stock.vue
+const { items: products } = useDataManager("stock", []);
+
 // État
 const cart = ref([]);
 const selectedClientId = ref("");
@@ -406,6 +462,8 @@ const successMessage = ref("");
 const currentInvoiceForPayment = ref(null);
 const invoiceToCancel = ref(null);
 const cancelReason = ref("");
+const invoiceToPrint = ref(null);
+const activeTab = ref("services");
 
 const paymentIcons = {
   card: "💳",
@@ -428,6 +486,13 @@ const filteredServices = computed(() => {
   if (!searchQuery.value) return services.value;
   return services.value.filter((s) =>
     s.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
+
+const filteredProducts = computed(() => {
+  if (!searchQuery.value) return products.value;
+  return products.value.filter((p) =>
+    p.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
 
@@ -455,13 +520,22 @@ const pendingCount = computed(() => {
 
 // Fonctions Panier
 const addToCart = (service) => {
-  const existingItem = cart.value.find((item) => item.id === service.id);
+  // Check if item is a product or service based on type field
+  const itemId = service.type === 'product' ? `prod-${service.id}` : service.id;
+  const existingItem = cart.value.find((item) => {
+    if (service.type === 'product') {
+      return item.type === 'product' && item.id === service.id;
+    }
+    return item.type !== 'product' && item.id === service.id;
+  });
+  
   if (existingItem) {
     existingItem.quantity++;
   } else {
     cart.value.push({
       ...service,
       quantity: 1,
+      type: service.type || 'service', // Ensure type is set
     });
   }
 };
@@ -565,6 +639,10 @@ const confirmCancelInvoice = () => {
   }, 2000);
   invoiceToCancel.value = null;
 };
+
+const showInvoicePrint = (invoice) => {
+  invoiceToPrint.value = invoice;
+};
 </script>
 
 <style scoped>
@@ -629,28 +707,6 @@ const confirmCancelInvoice = () => {
   font-size: 12px;
   color: #999;
   font-style: italic;
-}
-
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #e0e0e0;
-}
-
-.page-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #333;
-  margin: 0;
-}
-
-.page-subtitle {
-  font-size: 14px;
-  color: #666;
-  margin: 4px 0 0 0;
 }
 
 .header-stats {
@@ -774,7 +830,7 @@ const confirmCancelInvoice = () => {
 .loyalty-points {
   font-size: 14px;
   font-weight: 700;
-  color: #667eea;
+  color: #4bbbfb;
 }
 
 .btn-change-client,
@@ -801,7 +857,7 @@ const confirmCancelInvoice = () => {
 
 .btn-new-client,
 .btn-add {
-  background: #667eea;
+  background: #4bbbfb;
   color: white;
 }
 
@@ -843,9 +899,11 @@ const confirmCancelInvoice = () => {
   padding: 16px;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  flex: 1;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
+  height: 400px;
+  max-height: 400px;
 }
 
 .btn-clear-small {
@@ -855,12 +913,24 @@ const confirmCancelInvoice = () => {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  flex-shrink: 0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
 }
 
 .cart-items {
   flex: 1;
   overflow-y: auto;
   margin-bottom: 12px;
+  min-height: 0;
 }
 
 .empty-state {
@@ -877,7 +947,7 @@ const confirmCancelInvoice = () => {
   padding: 10px;
   border-radius: 4px;
   margin-bottom: 8px;
-  border-left: 3px solid #667eea;
+  border-left: 3px solid #4bbbfb;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -915,12 +985,12 @@ const confirmCancelInvoice = () => {
   border-radius: 3px;
   cursor: pointer;
   font-weight: 600;
-  color: #667eea;
+  color: #4bbbfb;
   font-size: 11px;
 }
 
 .qty-btn:hover {
-  background: #667eea;
+  background: #4bbbfb;
   color: white;
 }
 
@@ -942,7 +1012,7 @@ const confirmCancelInvoice = () => {
 
 .item-total {
   font-weight: 600;
-  color: #667eea;
+  color: #4bbbfb;
   width: 40px;
   text-align: right;
 }
@@ -950,6 +1020,7 @@ const confirmCancelInvoice = () => {
 .cart-footer {
   border-top: 1px solid #e0e0e0;
   padding-top: 12px;
+  flex-shrink: 0;
 }
 
 .total-row {
@@ -985,9 +1056,41 @@ const confirmCancelInvoice = () => {
   padding: 16px;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  flex: 1;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
+  height: 450px;
+  max-height: 450px;
+}
+
+.tab-navigation {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.tab-btn {
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: #999;
+  transition: all 0.2s;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.tab-btn:hover {
+  color: #4bbbfb;
+}
+
+.tab-btn.active {
+  color: #4bbbfb;
+  border-bottom-color: #4bbbfb;
 }
 
 .services-grid {
@@ -996,6 +1099,8 @@ const confirmCancelInvoice = () => {
   gap: 8px;
   flex: 1;
   overflow-y: auto;
+  min-height: 0;
+  max-height: 100%;
 }
 
 .service-btn {
@@ -1007,11 +1112,15 @@ const confirmCancelInvoice = () => {
   transition: all 0.2s;
   font-size: 12px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
 }
 
 .service-btn:hover {
   background: white;
-  border-color: #667eea;
+  border-color: #4bbbfb;
   box-shadow: 0 2px 6px rgba(102, 126, 234, 0.2);
 }
 
@@ -1019,13 +1128,22 @@ const confirmCancelInvoice = () => {
   display: block;
   font-weight: 500;
   color: #333;
-  margin-bottom: 4px;
 }
 
 .service-price {
   display: block;
-  color: #667eea;
+  color: #4bbbfb;
   font-weight: 600;
+}
+
+.product-btn {
+  border-left: 3px solid #e65100;
+}
+
+.product-stock {
+  display: block;
+  font-size: 11px;
+  color: #999;
 }
 
 .invoices-section {
@@ -1147,6 +1265,21 @@ const confirmCancelInvoice = () => {
   background: #e0e0e0;
 }
 
+.btn-print {
+  background: #3498db;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.btn-print:hover {
+  background: #2980b9;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -1190,7 +1323,7 @@ const confirmCancelInvoice = () => {
 
 .highlight {
   font-weight: 700;
-  color: #667eea;
+  color: #4bbbfb;
 }
 
 .payment-methods {
@@ -1213,7 +1346,7 @@ const confirmCancelInvoice = () => {
 }
 
 .payment-btn:hover {
-  border-color: #667eea;
+  border-color: #4bbbfb;
   background: #f9f9f9;
 }
 
@@ -1310,3 +1443,4 @@ const confirmCancelInvoice = () => {
   }
 }
 </style>
+

@@ -10,7 +10,7 @@
 
 :root {
   /* Couleurs principales */
-  --primary-color: #667eea;
+  --primary-color: #4bbbfb;
   --primary-dark: #764ba2;
   --primary-light: #f9f9ff;
 
@@ -225,12 +225,6 @@ body {
   position: relative;
 }
 
-/* Variante sombre de la carte */
-.login-card.dark-mode {
-  background-color: #1a1a1a !important;
-  color: #f5f5f5 !important;
-}
-
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -270,11 +264,6 @@ body {
   letter-spacing: 2px;
 }
 
-/* Mode sombre - Titre */
-.login-card.dark-mode .login-header h1 {
-  color: #f5f5f5 !important;
-}
-
 /* Sous-titre */
 .subtitle {
   color: var(--medium-gray) !important;
@@ -288,12 +277,7 @@ body {
   color: #ccc !important;
 }
 
-/* ============================================
-   6. FORMULAIRE DE CONNEXION
-   ============================================ */
-
-.login-form {
-  display: flex;
+/* isplay: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
 }
@@ -323,12 +307,7 @@ body {
   padding: 12px var(--spacing-md);
   border: 2px solid var(--light-gray);
   border-radius: var(--radius-md);
-  font-size: var(--font-size-base);
-  transition: all var(--transition-normal);
-  font-family: inherit;
-  background-color: var(--white) !important;
-  color: var(--dark-gray) !important;
-}
+  f
 
 .form-group input::placeholder {
   color: #999;
@@ -349,11 +328,6 @@ body {
 .form-group input:disabled {
   background-color: var(--lighter-gray);
   cursor: not-allowed;
-  opacity: 0.6;
-}
-
-/* Mode sombre - Champs d'entrée */
-.login-card.dark-mode .form-group input {
   background-color: #2a2a2a !important;
   color: #f5f5f5 !important;
   border-color: #444;
@@ -373,27 +347,6 @@ body {
   background-color: #1a1a1a;
 }
 
-/* Message d'erreur */
-.error-message {
-  color: var(--error-text);
-  font-size: var(--font-size-xs);
-  margin-top: var(--spacing-xs);
-  display: block;
-  font-weight: var(--font-weight-medium);
-  animation: shake 0.3s ease-in-out;
-}
-
-@keyframes shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-5px);
-  }
-  75% {
-    transform: translateX(5px);
-  }
 }
 
 /* ============================================
@@ -747,56 +700,9 @@ body {
   border-color: #c0392b;
 }
 
-.login-card.dark-mode .alert-success {
-  background-color: rgba(39, 174, 96, 0.2);
-  color: #51cf66;
-  border-color: #27ae60;
-}
-
-/* Liens en mode sombre */
-.login-card.dark-mode .forgot-password,
-.login-card.dark-mode .signup-link {
-  color: #8a9cff;
-}
-
-.login-card.dark-mode .forgot-password:hover,
-.login-card.dark-mode .signup-link:hover {
-  color: #b5c4ff;
-}
-
-.login-card.dark-mode .divider {
-  color: #444;
-}
-
 /* ============================================
    11. ACCESSIBILITÉ ET PRÉFÉRENCES UTILISATEUR
    ============================================ */
-
-/* Mode sombre du système */
-@media (prefers-color-scheme: dark) {
-  .login-card {
-    background-color: #1a1a1a;
-    color: #f5f5f5;
-  }
-
-  .login-header h1 {
-    color: #f5f5f5;
-  }
-
-  .form-group label {
-    color: #f5f5f5;
-  }
-
-  .form-group input {
-    background-color: #2a2a2a;
-    color: #f5f5f5;
-    border-color: #444;
-  }
-
-  .form-group input:focus {
-    background-color: rgba(102, 126, 234, 0.1);
-  }
-}
 
 /* Préférence pour les mouvements réduits */
 @media (prefers-reduced-motion: reduce) {
@@ -834,3 +740,4 @@ body {
     display: none;
   }
 }
+

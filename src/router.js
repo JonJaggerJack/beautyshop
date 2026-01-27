@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "./components/Dashboard.vue";
 import Services from "./components/Services.vue";
 import Personnel from "./components/Personnel.vue";
+import Clients from "./components/Clients.vue";
+import Reservations from "./components/Reservations.vue";
 import POS from "./components/POS.vue";
 import Stock from "./components/Stock.vue";
 import LoginPage from "./components/LoginPage.vue";
@@ -29,6 +31,18 @@ const routes = [
     path: "/personnel",
     name: "Personnel",
     component: Personnel,
+    meta: { requiresAuth: true, requiresRole: "gerante" },
+  },
+  {
+    path: "/clients",
+    name: "Clients",
+    component: Clients,
+    meta: { requiresAuth: true, requiresRole: "gerante" },
+  },
+  {
+    path: "/reservations",
+    name: "Reservations",
+    component: Reservations,
     meta: { requiresAuth: true, requiresRole: "gerante" },
   },
   {

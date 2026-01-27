@@ -3,6 +3,32 @@ import { ref, reactive } from "vue";
 // État singleton pour les clients
 const currentClients = ref([]);
 const currentInvoices = ref([]);
+const currentReservations = ref([]);
+
+// Fonctions de sauvegarde globales
+const saveClientsToStorage = () => {
+  try {
+    localStorage.setItem("clients", JSON.stringify(currentClients.value));
+  } catch (error) {
+    console.error("Error saving clients to storage:", error);
+  }
+};
+
+const saveInvoicesToStorage = () => {
+  try {
+    localStorage.setItem("invoices", JSON.stringify(currentInvoices.value));
+  } catch (error) {
+    console.error("Error saving invoices to storage:", error);
+  }
+};
+
+const saveReservationsToStorage = () => {
+  try {
+    localStorage.setItem("reservations", JSON.stringify(currentReservations.value));
+  } catch (error) {
+    console.error("Error saving reservations to storage:", error);
+  }
+};
 
 // Initialiser les données au chargement du module
 function initClientsOnLoad() {
@@ -51,6 +77,11 @@ function initClientsOnLoad() {
     if (savedInvoices) {
       currentInvoices.value = JSON.parse(savedInvoices);
     }
+
+    const savedReservations = localStorage.getItem("reservations");
+    if (savedReservations) {
+      currentReservations.value = JSON.parse(savedReservations);
+    }
   } catch (error) {
     console.error("Error loading clients:", error);
   }
@@ -60,22 +91,6 @@ function initClientsOnLoad() {
 initClientsOnLoad();
 
 export function useClients() {
-  const saveClientsToStorage = () => {
-    try {
-      localStorage.setItem("clients", JSON.stringify(currentClients.value));
-    } catch (error) {
-      console.error("Error saving clients to storage:", error);
-    }
-  };
-
-  const saveInvoicesToStorage = () => {
-    try {
-      localStorage.setItem("invoices", JSON.stringify(currentInvoices.value));
-    } catch (error) {
-      console.error("Error saving invoices to storage:", error);
-    }
-  };
-
   // Récupérer tous les clients
   const getClients = () => currentClients.value;
 
@@ -85,8 +100,11 @@ export function useClients() {
     const newClient = {
       id: newId,
       name: clientData.name,
-      email: clientData.email,
+      email: clientData.email || "",
       phone: clientData.phone,
+      address: clientData.address || "",
+      city: clientData.city || "",
+      postalCode: clientData.postalCode || "",
       joinDate: new Date().toISOString().split("T")[0],
       loyaltyPoints: 0,
       totalSpent: 0,
@@ -242,13 +260,65 @@ export function useClients() {
     };
   };
 
+  // Gestion des réservations
+  const addReservation = (reservationData) => {
+    const newId = Math.max(...currentReservations.value.map((r) => r.id || 0), 0) + 1;
+    const newReservation = {
+      id: newId,
+      clientId: reservationData.clientId,
+      serviceId: reservationData.serviceId,
+      date: reservationData.date,
+      startTime: reservationData.startTime,
+      endTime: reservationData.endTime || calculateEndTime(reservationData.startTime),
+      notes: reservationData.notes || "",
+      status: reservationData.status || "pending",
+      createdAt: new Date().toISOString(),
+    };
+    currentReservations.value.push(newReservation);
+    saveReservationsToStorage();
+    return newReservation;
+  };
+
+  const calculateEndTime = (startTime) => {
+    const [hours, minutes] = startTime.split(":").map(Number);
+    const endHours = (hours + 1) % 24;
+    return `${String(endHours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+  };
+
+  const updateReservation = (id, reservationData) => {
+    const index = currentReservations.value.findIndex((r) => r.id === id);
+    if (index !== -1) {
+      currentReservations.value[index] = {
+        ...currentReservations.value[index],
+        ...reservationData,
+      };
+      saveReservationsToStorage();
+      return currentReservations.value[index];
+    }
+    return null;
+  };
+
+  const deleteReservation = (id) => {
+    const index = currentReservations.value.findIndex((r) => r.id === id);
+    if (index !== -1) {
+      currentReservations.value.splice(index, 1);
+      saveReservationsToStorage();
+      return true;
+    }
+    return false;
+  };
+
   return {
     clients: currentClients,
     invoices: currentInvoices,
+    reservations: currentReservations,
     getClients,
     addClient,
     updateClient,
     deleteClient,
+    addReservation,
+    updateReservation,
+    deleteReservation,
     addLoyaltyPoints,
     useLoyaltyPoints,
     updateTotalSpent,

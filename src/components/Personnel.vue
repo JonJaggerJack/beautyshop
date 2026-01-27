@@ -5,7 +5,15 @@
     </div>
     <header class="page-header">
       <div>
-        <h1 class="page-title">Personnel</h1>
+        <div class="header-title">
+          <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <h1 class="page-title">Personnel</h1>
+        </div>
         <p class="page-subtitle">Gestion du personnel du salon</p>
       </div>
       <button type="button" class="btn-primary" @click="showAddModal = true">
@@ -26,7 +34,7 @@
     <div class="personnel-content">
       <div class="personnel-grid">
         <div
-          v-for="member in personnel"
+          v-for="member in personnel.slice(0, 3)"
           :key="member.id"
           class="personnel-card"
         >
@@ -36,6 +44,10 @@
           <div class="personnel-info">
             <h3>{{ member.name }}</h3>
             <p class="role">{{ member.role }}</p>
+            <div v-if="member.locked || member.suspended" class="status-badges">
+              <span v-if="member.locked" class="badge locked">🔒 Verrouillé</span>
+              <span v-if="member.suspended" class="badge suspended">⏸️ Suspendu</span>
+            </div>
             <div class="personnel-details">
               <div class="detail-item">
                 <svg
@@ -81,42 +93,30 @@
             </div>
           </div>
           <div class="personnel-actions">
-            <button
-              type="button"
-              class="btn-icon edit"
-              @click="editMember(member)"
-              title="Modifier"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-                ></path>
-                <path
-                  d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-                ></path>
+            <button type="button" class="btn-icon lock" @click="toggleLock(member)" :title="member.locked ? 'Déverrouiller' : 'Verrouiller'">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4bbbfb" stroke-width="2.5" stroke-linecap="round">
+                <rect x="4" y="10" width="16" height="10" rx="2"></rect>
+                <path d="M7 10V6a5 5 0 0 1 10 0v4"></path>
               </svg>
             </button>
-            <button
-              type="button"
-              class="btn-icon delete"
-              @click="deleteMember(member.id)"
-              title="Supprimer"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
+            <button type="button" class="btn-icon suspend" @click="toggleSuspend(member)" :title="member.suspended ? 'Activer' : 'Suspendre'">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4bbbfb" stroke-width="2.5" stroke-linecap="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12" y2="16.01"></line>
+              </svg>
+            </button>
+            <button type="button" class="btn-icon edit" @click="editMember(member)" title="Modifier">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4bbbfb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+              </svg>
+            </button>
+            <button type="button" class="btn-icon delete" @click="deleteMember(member.id)" title="Supprimer">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4bbbfb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="3 6 5 6 21 6"></polyline>
-                <path
-                  d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
-                ></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
               </svg>
             </button>
           </div>
@@ -186,6 +186,8 @@ const initialPersonnel = [
     email: "marie.dupont@salon.fr",
     phone: "06 12 34 56 78",
     schedule: "Lun-Ven 9h-18h",
+    locked: false,
+    suspended: false,
   },
   {
     id: 2,
@@ -194,6 +196,8 @@ const initialPersonnel = [
     email: "jean.martin@salon.fr",
     phone: "06 23 45 67 89",
     schedule: "Mar-Sam 10h-19h",
+    locked: false,
+    suspended: false,
   },
   {
     id: 3,
@@ -202,6 +206,8 @@ const initialPersonnel = [
     email: "sophie.bernard@salon.fr",
     phone: "06 34 56 78 90",
     schedule: "Mer-Dim 9h-17h",
+    locked: false,
+    suspended: false,
   },
 ];
 
@@ -278,7 +284,23 @@ const deleteMember = (id) => {
     }, 3000);
   }
 };
+const toggleLock = (member) => {
+  const newStatus = !member.locked;
+  updateItem(member.id, { locked: newStatus });
+  successMessage.value = newStatus ? "Compte verrouill\u00e9" : "Compte d\u00e9verrouill\u00e9";
+  setTimeout(() => {
+    successMessage.value = "";
+  }, 3000);
+};
 
+const toggleSuspend = (member) => {
+  const newStatus = !member.suspended;
+  updateItem(member.id, { suspended: newStatus });
+  successMessage.value = newStatus ? "Compte suspendu" : "Compte activ\u00e9";
+  setTimeout(() => {
+    successMessage.value = "";
+  }, 3000);
+};
 const resetForm = () => {
   editingMember.value = null;
   formData.name = "";
@@ -330,17 +352,31 @@ const closeModal = () => {
 .page-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 30px;
   padding-bottom: 20px;
   border-bottom: 2px solid #e0e0e0;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title-icon {
+  width: 24px;
+  height: 24px;
+  color: #4bbbfb;
 }
 
 .page-title {
   font-size: 32px;
   font-weight: 700;
   color: #333;
-  margin: 0 0 8px 0;
+  margin: 0;
 }
 
 .page-subtitle {
@@ -354,7 +390,7 @@ const closeModal = () => {
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: #667eea;
+  background: #4bbbfb;
   color: white;
   border: none;
   border-radius: 8px;
@@ -383,7 +419,7 @@ const closeModal = () => {
 
 .personnel-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -408,7 +444,7 @@ const closeModal = () => {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4bbbfb 0%, #764ba2 100%);
   color: white;
   display: flex;
   align-items: center;
@@ -427,9 +463,34 @@ const closeModal = () => {
 
 .role {
   font-size: 14px;
-  color: #667eea;
+  color: #4bbbfb;
   font-weight: 600;
-  margin: 0 0 16px 0;
+  margin: 0 0 8px 0;
+}
+
+.status-badges {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge.locked {
+  background: #ff9800;
+  color: white;
+}
+
+.badge.suspended {
+  background: #f44336;
+  color: white;
 }
 
 .personnel-details {
@@ -455,7 +516,7 @@ const closeModal = () => {
 .detail-item svg {
   width: 16px;
   height: 16px;
-  color: #667eea;
+  color: #4bbbfb;
   flex-shrink: 0;
 }
 
@@ -467,8 +528,8 @@ const closeModal = () => {
 }
 
 .btn-icon {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   border: none;
   background: transparent;
   border-radius: 6px;
@@ -477,16 +538,34 @@ const closeModal = () => {
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
+  color: #4bbbfb !important;
+  font-size: 24px;
+  line-height: 1;
 }
 
 .btn-icon svg {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
+  color: #4bbbfb !important;
+  stroke: #4bbbfb !important;
+  fill: none !important;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .btn-icon.edit:hover {
   background: rgba(102, 126, 234, 0.1);
-  color: #667eea;
+  color: #4bbbfb;
+}
+
+.btn-icon.lock:hover {
+  background: rgba(255, 152, 0, 0.1);
+  color: #ff9800;
+}
+
+.btn-icon.suspend:hover {
+  background: rgba(156, 39, 176, 0.1);
+  color: #9c27b0;
 }
 
 .btn-icon.delete:hover {
@@ -549,7 +628,7 @@ const closeModal = () => {
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #4bbbfb;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
@@ -600,3 +679,4 @@ const closeModal = () => {
   }
 }
 </style>
+

@@ -1,15 +1,23 @@
 <template>
-  <div class="dashboard-container" :class="{ 'dark-mode': isDarkMode }">
+  <div class="dashboard-container">
     <!-- Header -->
-    <header class="dashboard-header">
-      <div class="header-left">
-        <h1 class="dashboard-title">CHEZ JK</h1>
-        <p class="dashboard-subtitle">Tableau de Bord</p>
+    <header class="page-header">
+      <div>
+        <div class="header-title">
+          <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <h1 class="page-title">Tableau de Bord</h1>
+        </div>
+        <p class="page-subtitle">Statistiques et résumé d'activité</p>
       </div>
     </header>
 
     <!-- Main Content -->
-    <main class="dashboard-main" :class="{ 'dark-mode': isDarkMode }">
+    <main class="dashboard-main">
       <!-- Statistiques Cards -->
       <section class="stats-section">
         <h2 class="section-title">Statistiques</h2>
@@ -100,8 +108,7 @@
       <!-- Services Table -->
       <section class="services-section">
         <div class="section-header">
-          <h2 class="section-title">Services</h2>
-          <button type="button" class="btn-add">+ Ajouter Service</button>
+          <h2 class="section-title">Services populaires</h2>
         </div>
         <div class="table-responsive">
           <table class="services-table">
@@ -110,7 +117,6 @@
                 <th>Service</th>
                 <th>Prix</th>
                 <th>Réservations</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -118,22 +124,6 @@
                 <td>{{ service.name }}</td>
                 <td>{{ service.price }}€</td>
                 <td>{{ service.bookings }}</td>
-                <td class="actions-cell">
-                  <button
-                    type="button"
-                    class="btn-action edit"
-                    title="Modifier"
-                  >
-                    ✏️
-                  </button>
-                  <button
-                    type="button"
-                    class="btn-action delete"
-                    title="Supprimer"
-                  >
-                    🗑️
-                  </button>
-                </td>
               </tr>
             </tbody>
           </table>
@@ -171,8 +161,6 @@
 import { ref, onMounted } from "vue";
 
 const emit = defineEmits(["logout"]);
-
-const isDarkMode = ref(false);
 
 const stats = ref({
   clients: 128,
@@ -228,19 +216,6 @@ const upcomingAppointments = ref([
   },
 ]);
 
-// Charger le thème
-onMounted(() => {
-  const savedDarkMode = localStorage.getItem("darkMode");
-  if (savedDarkMode !== null) {
-    isDarkMode.value = savedDarkMode === "true";
-  }
-});
-
-const toggleTheme = () => {
-  isDarkMode.value = !isDarkMode.value;
-  localStorage.setItem("darkMode", isDarkMode.value);
-};
-
 const logout = () => {
   localStorage.removeItem("userToken");
   emit("logout");
@@ -249,4 +224,30 @@ const logout = () => {
 
 <style scoped>
 @import "../styles/dashboard.css";
+
+.page-header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+}
+
+.dashboard-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 30px;
+  background: linear-gradient(135deg, #4bbbfb 0%, #2a2870 100%);
+  color: white;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(75, 187, 251, 0.3);
+}
 </style>
+
