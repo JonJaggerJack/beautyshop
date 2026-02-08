@@ -3,8 +3,8 @@
    ============================================ */
 
 :root {
-  --primary-color: #4bbbfb;
-  --primary-dark: #1a1950;
+  --primary-color: #1c1b57;
+  --primary-dark: #1c1b57;
   --white: #ffffff;
   --dark-gray: #333333;
   --medium-gray: #666666;
@@ -186,12 +186,12 @@
 }
 
 .stat-icon.clients {
-  background: rgba(75, 187, 251, 0.15);
-  color: #4bbbfb;
+  background: rgba(28, 27, 87, 0.15);
+  color: #1c1b57;
 }
 
 .stat-icon.clients svg {
-  stroke: #4bbbfb;
+  stroke: #1c1b57;
 }
 
 .stat-icon.appointments {
@@ -457,17 +457,17 @@ svg.title-icon,
 }
 
 .title-icon {
-  color: #4bbbfb;
+  color: #1c1b57;
   flex-shrink: 0;
   width: 24px;
   height: 24px;
-  stroke: #4bbbfb !important;
+  stroke: #1c1b57 !important;
 }
 
 /* Force stroke color on action buttons */
 .btn-icon svg {
-  stroke: #4bbbfb !important;
-  color: #4bbbfb !important;
+  stroke: #1c1b57 !important;
+  color: #1c1b57 !important;
   fill: none !important;
 }
 
@@ -475,7 +475,7 @@ svg.title-icon,
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #4bbbfb;
+  background: #1c1b57;
   color: white;
   border: none;
   padding: 10px 16px;

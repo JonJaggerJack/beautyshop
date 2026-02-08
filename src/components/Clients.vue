@@ -316,7 +316,7 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: #4bbbfb;
+  background: #1c1b57;
   color: white;
   border: none;
   border-radius: 8px;
@@ -326,9 +326,9 @@ onMounted(() => {
 }
 
 .btn-primary:hover {
-  background: #5568d3;
+  background: #1c1b57;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(28, 27, 87, 0.3);
 }
 
 .btn-primary .icon {
@@ -341,7 +341,7 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: #4bbbfb;
+  background: #1c1b57;
   color: white;
   border: none;
   border-radius: 8px;
@@ -353,9 +353,9 @@ onMounted(() => {
 }
 
 .btn-add-client:hover {
-  background: #5568d3;
+  background: #1c1b57;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(28, 27, 87, 0.3);
 }
 
 .btn-add-client .icon {
@@ -378,7 +378,7 @@ onMounted(() => {
 
 .btn-add-client {
   padding: 10px 20px;
-  background: #4bbbfb;
+  background: #1c1b57;
   color: white;
   border: none;
   border-radius: 5px;
@@ -438,8 +438,8 @@ onMounted(() => {
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #4bbbfb;
-  box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+  border-color: #1c1b57;
+  box-shadow: 0 0 5px rgba(28, 27, 87, 0.3);
 }
 
 .form-actions {
@@ -513,7 +513,7 @@ onMounted(() => {
 
 .search-input:focus {
   outline: none;
-  border-color: #4bbbfb;
+  border-color: #1c1b57;
 }
 
 .clients-table {
@@ -551,7 +551,7 @@ onMounted(() => {
 
 .points-badge {
   display: inline-block;
-  background: #4bbbfb;
+  background: #1c1b57;
   color: white;
   padding: 4px 12px;
   border-radius: 20px;

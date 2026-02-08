@@ -27,8 +27,8 @@
 .title-icon {
   width: 24px;
   height: 24px;
-  color: #4bbbfb;
-  stroke: #4bbbfb !important;
+  color: #1c1b57;
+  stroke: #1c1b57 !important;
   fill: none;
   flex-shrink: 0;
 }
@@ -51,7 +51,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: #4bbbfb;
+  background: #1c1b57;
   color: white;
   border: none;
   border-radius: 8px;

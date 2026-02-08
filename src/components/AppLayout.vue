@@ -271,7 +271,7 @@ const handlePhotoUpload = (event) => {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4bbbfb 0%, #2a2970 100%);
+  background: linear-gradient(135deg, #1c1b57 0%, #1c1b57 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -322,9 +322,9 @@ const handlePhotoUpload = (event) => {
 }
 
 .photo-btn {
-  background: rgba(102, 126, 234, 0.2);
-  border: 1px solid rgba(102, 126, 234, 0.5);
-  color: #4bbbfb;
+  background: rgba(28, 27, 87, 0.2);
+  border: 1px solid rgba(28, 27, 87, 0.5);
+  color: #1c1b57;
   cursor: pointer;
   padding: 5px;
   border-radius: 4px;
@@ -336,8 +336,8 @@ const handlePhotoUpload = (event) => {
 }
 
 .photo-btn:hover {
-  background: rgba(102, 126, 234, 0.3);
-  border-color: #4bbbfb;
+  background: rgba(28, 27, 87, 0.3);
+  border-color: #1c1b57;
 }
 
 .photo-upload {
@@ -395,9 +395,9 @@ const handlePhotoUpload = (event) => {
 }
 
 .theme-btn.active {
-  background: rgba(102, 126, 234, 0.3);
-  border-color: #4bbbfb;
-  color: #4bbbfb;
+  background: rgba(28, 27, 87, 0.3);
+  border-color: #1c1b57;
+  color: #1c1b57;
 }
 
 .theme-btn .icon {

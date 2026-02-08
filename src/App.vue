@@ -29,7 +29,7 @@ onMounted(() => {
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Poppins", sans-serif;
   background: #ffffff;
   color: #333;
   transition: background-color 0.3s, color 0.3s;

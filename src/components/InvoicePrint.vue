@@ -241,12 +241,12 @@ const closePrint = () => {
 }
 
 .btn-print {
-  background: #4bbbfb;
+  background: #1c1b57;
   color: white;
 }
 
 .btn-print:hover {
-  background: #764ba2;
+  background: #1c1b57;
 }
 
 .btn-close {
@@ -264,7 +264,7 @@ const closePrint = () => {
   background: white;
   padding: 40px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  font-family: "Arial", sans-serif;
+  font-family: "Poppins", sans-serif;
   line-height: 1.6;
 }
 
@@ -301,7 +301,7 @@ const closePrint = () => {
 .invoice-title {
   font-size: 28px;
   font-weight: bold;
-  color: #4bbbfb;
+  color: #1c1b57;
   margin: 0;
 }
 

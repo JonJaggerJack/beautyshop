@@ -243,7 +243,7 @@ const logout = () => {
   justify-content: space-between;
   align-items: center;
   padding: 24px 30px;
-  background: linear-gradient(135deg, #4bbbfb 0%, #2a2870 100%);
+  background: linear-gradient(135deg, #1c1b57 0%, #1c1b57 100%);
   color: white;
   margin-bottom: 30px;
   border-radius: 12px;

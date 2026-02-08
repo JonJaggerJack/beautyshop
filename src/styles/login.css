@@ -10,9 +10,9 @@
 
 :root {
   /* Couleurs principales */
-  --primary-color: #4bbbfb;
-  --primary-dark: #764ba2;
-  --primary-light: #f9f9ff;
+  --primary-color: #1c1b57;
+  --primary-dark: #1c1b57;
+  --primary-light: #c2ecff;
 
   /* Couleurs d'état */
   --success-bg: #d5f4e6;
@@ -47,7 +47,7 @@
   --spacing-3xl: 64px;
 
   /* Typography */
-  --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --font-family: "Poppins", sans-serif;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
@@ -387,6 +387,14 @@ body {
   border-color: var(--success-border);
 }
 
+/* Message d'erreur */
+.error-message {
+  color: var(--error-text);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-xs);
+  display: block;
+}
+
 /* ============================================
    8. BOUTON DE CONNEXION
    ============================================ */
@@ -407,8 +415,9 @@ body {
   transition: all var(--transition-normal);
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-top: var(--spacing-md);
+  margin: var(--spacing-md) auto 0;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.25);
+  display: block;
 }
 
 .btn-login:hover:not(:disabled) {
@@ -540,6 +549,8 @@ body {
     padding: 12px;
     font-size: 14px;
     letter-spacing: 0.5px;
+    display: block;
+    margin: var(--spacing-md) auto 0;
   }
 
   .login-footer {
@@ -614,8 +625,9 @@ body {
     padding: 11px 12px;
     font-size: 13px;
     letter-spacing: 0.5px;
-    margin-top: var(--spacing-md);
+    margin: var(--spacing-md) auto 0;
     border-radius: var(--radius-sm);
+    display: block;
   }
 
   .btn-login:hover:not(:disabled) {
@@ -681,6 +693,8 @@ body {
   .btn-login {
     padding: 10px;
     font-size: 12px;
+    display: block;
+    margin: var(--spacing-md) auto 0;
   }
 }
 
